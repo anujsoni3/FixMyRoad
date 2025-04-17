@@ -128,6 +128,11 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 - MongoDB Atlas for database services
 - All contributors who have helped shape this project
 
+## 🚀 Live Demo
+
+[![Deploy](https://img.shields.io/badge/Live-Demo-green?style=for-the-badge&logo=vercel)](https://evently-app.vercel.app)
+
+
 ## 📞 Contact
 
 Anuj Soni - [GitHub](https://github.com/anujsoni3) - soni3anuj@gmail.com
