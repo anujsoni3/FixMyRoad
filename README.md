@@ -130,6 +130,6 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ## 📞 Contact
 
-Anuj Soni - [GitHub](https://github.com/anujsoni3) - contact@anujsoni.com
+Anuj Soni - [GitHub](https://github.com/anujsoni3) - soni3anuj@gmail.com
 
 Project Link: [https://github.com/anujsoni3/fixmyroad](https://github.com/anujsoni3/fixmyroad)
