@@ -41,7 +41,7 @@ model = project.version(2).model
 
 # --------------------- MongoDB Connections --------------------------------
 
-client = MongoClient('mongodb://localhost:27017/')
+client = MongoClient('mongodb+srv://anuj:anuj123@cluster0.qhhfsfp.mongodb.net/porthole_app?retryWrites=true&w=majority&appName=Cluster0')
 db = client['pothole_app']
 users_collection = db['users']
 resolved_complaints_collection = db['resolved_complaints']
