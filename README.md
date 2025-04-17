@@ -130,7 +130,7 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ## 🚀 Live Demo
 
-[![Deploy](https://img.shields.io/badge/Live-Demo-green?style=for-the-badge&logo=vercel)](https://evently-app.vercel.app)
+[![Deploy](https://img.shields.io/badge/Live-Demo-green?style=for-the-badge&logo=vercel)](https://fixmyroad-2r87.onrender.com/)
 
 
 ## 📞 Contact
