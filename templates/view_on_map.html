@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pothole Map View</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="static/images/favicon.jpg" rel="icon">
+    <link href="static/images/Budget & Smart Travel Favic0on.jpg" rel="apple-touch-icon">
+    <link href="static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="static/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="static/vendor/aos/aos.css" rel="stylesheet">
+    <link href="static/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+    <link href="static/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+    <link href="static/css/main.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/header.css">
+    <style>
+        :root {
+            --primary-color: #ECB365;    /* Amber/gold accent color */
+            --secondary-color: #B4EBE6;  /* Soft teal */
+            --dark-bg: #041C32;          /* Deep navy blue background */
+            --darker-bg: #04293A;        /* Darker navy for contrast */
+            --light-text: #F5F5F5;       /* Light text */
+            --teal-light: #D4F5F2;       /* Lighter teal for hover states */
+            --gold-light: #F2D093;       /* Lighter gold for hover states */
+            --success-color: #4CAF50;    /* Success green */
+            --warning-color: #FF9800;    /* Warning orange */
+            --error-color: #F44336;      /* Error red */
+            
+            /* Header vars */
+            --default-color: #F5F5F5;    
+            --background-color: #041C32; 
+            --heading-color: #F5F5F5;    
+            --contrast-color: #ffffff;   
+            --accent-color: #ECB365;     
+            --heading-font: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            --nav-color: #F5F5F5;        
+            --nav-font: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            padding: 0;
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--light-text);
+            background-image: 
+                linear-gradient(rgba(4, 28, 50, 0.92), rgba(4, 28, 50, 0.92)), 
+                url('https://via.placeholder.com/1920x1080');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            padding-top: 100px;
+            position: relative;
+        }
+
+        /* Add subtle pattern overlay */
+        body:before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23b4ebe6' fill-opacity='0.03' fill-rule='evenodd'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .navbar {
+            background-color: var(--dark-bg);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            border-bottom: 1px solid rgba(180, 235, 230, 0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+
+        .navbar-brand {
+            font-weight: bold;
+            color: #ffffff !important;
+            font-size: 24px;
+            letter-spacing: 1px;
+            transition: all 0.4s ease;
+        }
+
+        .navbar-brand span {
+            color: var(--primary-color);
+            font-weight: 800;
+            text-shadow: 0 0 10px rgba(236, 179, 101, 0.4);
+        }
+
+        .navbar-brand:hover {
+            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.5), 0 0 15px rgba(255, 255, 255, 0.3);
+            letter-spacing: 1.5px;
+        }
+
+        .nav-link {
+            color: var(--light-text) !important;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 10px 15px !important;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: var(--primary-color) !important;
+            text-shadow: 0 0 8px rgba(236, 179, 101, 0.4);
+        }
+
+        #map {
+            height: calc(100vh - 180px);
+            width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(4, 28, 50, 0.2);
+        }
+        
+        .map-container {
+            padding: 15px;
+        }
+        
+        .control-panel {
+            background-color: var(--darker-bg);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(4, 28, 50, 0.3);
+            border-left: 4px solid var(--primary-color);
+        }
+        
+        .legend {
+            background-color: var(--darker-bg);
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(4, 28, 50, 0.3);
+            line-height: 25px;
+            border: 1px solid var(--secondary-color);
+            color: var(--light-text);
+        }
+        
+        .legend i {
+            width: 18px;
+            height: 18px;
+            float: left;
+            margin-right: 8px;
+            opacity: 0.8;
+            border-radius: 50%;
+            margin-top: 3px;
+        }
+        
+        .locate-btn {
+            background-color: var(--primary-color);
+            color: var(--dark-bg);
+            border: none;
+            border-radius: 5px;
+            padding: 8px 15px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .locate-btn:hover {
+            background-color: var(--gold-light);
+            box-shadow: 0 2px 5px rgba(4, 28, 50, 0.2);
+        }
+        
+        .filter-btn {
+            margin-right: 5px;
+            margin-bottom: 5px;
+            background-color: var(--secondary-color);
+            color: var(--dark-bg);
+            border: 1px solid var(--secondary-color);
+            transition: all 0.3s ease;
+        }
+        
+        .filter-btn:hover {
+            background-color: var(--dark-bg);
+            color: var(--secondary-color);
+            border: 1px solid var(--secondary-color);
+        }
+        
+        .filter-btn.active {
+            background-color: var(--dark-bg);
+            color: var(--secondary-color);
+        }
+        
+        .popup-image {
+            width: 100%;
+            max-height: 200px;
+            object-fit: cover;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            border: 2px solid var(--secondary-color);
+        }
+        
+        .popup-content {
+            max-width: 300px;
+        }
+        
+        .popup-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: var(--dark-bg);
+        }
+        
+        .popup-detail {
+            margin-bottom: 3px;
+            font-size: 0.9rem;
+            color: #333;
+        }
+        
+        .view-community-btn {
+            background-color: var(--primary-color);
+            color: var(--dark-bg);
+            border: none;
+            border-radius: 5px;
+            padding: 6px 12px;
+            width: 100%;
+            margin-top: 10px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            text-align: center;
+            display: block;
+            text-decoration: none;
+        }
+        
+        .view-community-btn:hover {
+            background-color: var(--gold-light);
+            color: var(--dark-bg);
+            text-decoration: none;
+            box-shadow: 0 2px 5px rgba(4, 28, 50, 0.2);
+        }
+
+        /* Background animation elements */
+        .background {
+            position: fixed;
+            width: 100vw;
+            height: 100vh;
+            top: 0;
+            left: 0;
+            margin: 0;
+            padding: 0;
+            background: #041c32;
+            overflow: hidden;
+            z-index: -2;
+        }
+
+        .background li {
+            position: absolute;
+            display: block;
+            list-style: none;
+            width: 20px;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            animation: animate 45s linear infinite;
+        }
+
+        .background li:nth-child(1) {
+            left: 23%;
+            width: 3px;
+            height: 3px;
+            bottom: -3px;
+            animation-delay: 3s;
+        }
+
+        .background li:nth-child(2) {
+            left: 80%;
+            width: 84px;
+            height: 84px;
+            bottom: -84px;
+            animation-delay: 13s;
+        }
+
+        .background li:nth-child(3) {
+            left: 5%;
+            width: 279px;
+            height: 279px;
+            bottom: -279px;
+            animation-delay: 15s;
+        }
+        .background li:nth-child(4) {
+            left: 3%;
+            width: 46px;
+            height: 46px;
+            bottom: -46px;
+            animation-delay: 12s;
+        }
+        .background li:nth-child(5) {
+            left: 4%;
+            width: 128px;
+            height: 128px;
+            bottom: -128px;
+            animation-delay: 4s;
+        }
+        .background li:nth-child(6) {
+            left: 28%;
+            width: 146px;
+            height: 146px;
+            bottom: -146px;
+            animation-delay: 30s;
+        }
+        .background li:nth-child(7) {
+            left: 36%;
+            width: 145px;
+            height: 145px;
+            bottom: -145px;
+            animation-delay: 5s;
+        }
+        .background li:nth-child(8) {
+            left: 88%;
+            width: 149px;
+            height: 149px;
+            bottom: -149px;
+            animation-delay: 39s;
+        }
+        .background li:nth-child(9) {
+            left: 1%;
+            width: 34px;
+            height: 34px;
+            bottom: -34px;
+            animation-delay: 22s;
+        }
+        .background li:nth-child(10) {
+            left: 88%;
+            width: 132px;
+            height: 132px;
+            bottom: -132px;
+            animation-delay: 19s;
+        }
+        .background li:nth-child(11) {
+            left: 75%;
+            width: 7px;
+            height: 7px;
+            bottom: -7px;
+            animation-delay: 31s;
+        }
+        .background li:nth-child(12) {
+            left: 32%;
+            width: 113px;
+            height: 113px;
+            bottom: -113px;
+            animation-delay: 53s;
+        }
+        .background li:nth-child(13) {
+            left: 4%;
+            width: 139px;
+            height: 139px;
+            bottom: -139px;
+            animation-delay: 37s;
+        }
+        .background li:nth-child(14) {
+            left: 35%;
+            width: 83px;
+            height: 83px;
+            bottom: -83px;
+            animation-delay: 35s;
+        }
+        .background li:nth-child(15) {
+            left: 36%;
+            width: 69px;
+            height: 69px;
+            bottom: -69px;
+            animation-delay: 46s;
+        }
+
+        @keyframes animate {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+                border-radius: 0;
+            }
+            100% {
+                transform: translateY(-1000px) rotate(720deg);
+                opacity: 0;
+                border-radius: 50%;
+            }
+        }
+
+        .blurred {
+            backdrop-filter: blur(10px);
+            background-color: rgba(4, 28, 50, 0.85);
+        }
+    </style>
+</head>
+<body>
+    <!-- Background animation elements -->
+    <ul class="background">
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
+
+    <!-- Navigation Bar -->
+    <header id="header" class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a href="/" class="logo d-flex align-items-center me-auto me-lg-0">
+       
+                <a href="/" class="logo">fix<span>myroad</span>™</a>
+              <span>&nbsp;&nbsp;</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/file_complaint">Report Pothole</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/view_on_map">Map View</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/view_complaints">Community Feed</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/your_complaint_status">My Complaints</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Back</a>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout">Logout</a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-12">
+                <div class="control-panel">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h4><i class="fas fa-map-marker-alt me-2"></i>Pothole Map</h4>
+                            <p class="text-muted">View verified potholes in your area</p>
+                        </div>
+                        <div class="col-md-6 text-md-end">
+                            <button id="locate-me" class="locate-btn">
+                                <i class="fas fa-location-arrow me-2"></i>Locate Me
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-12">
+                            <div class="filter-controls">
+                                <button class="btn btn-sm filter-btn active btn-dark" data-filter="all">All Potholes</button>
+                                <button class="btn btn-sm filter-btn" data-filter="severe">Severe</button>
+                                <button class="btn btn-sm filter-btn" data-filter="medium">Medium</button>
+                                <button class="btn btn-sm filter-btn" data-filter="low">Low</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 map-container">
+                <div id="map"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Parse the complaints data from Flask
+        const complaintsData = {{ complaints|safe }};
+        
+        // Initialize the map centered on India
+        const map = L.map('map').setView([20.5937, 78.9629], 5);
+        
+        // Add OpenStreetMap tiles
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+        
+        // Define marker icons for different severity levels
+        const markerIcons = {
+            severe: L.divIcon({
+                className: 'custom-div-icon',
+                html: `<div style="background-color: #dc3545; width: 15px; height: 15px; border-radius: 50%; border: 2px solid white;"></div>`,
+                iconSize: [15, 15],
+                iconAnchor: [7, 7]
+            }),
+            medium: L.divIcon({
+                className: 'custom-div-icon',
+                html: `<div style="background-color: #fd7e14; width: 15px; height: 15px; border-radius: 50%; border: 2px solid white;"></div>`,
+                iconSize: [15, 15],
+                iconAnchor: [7, 7]
+            }),
+            low: L.divIcon({
+                className: 'custom-div-icon',
+                html: `<div style="background-color: #ffc107; width: 15px; height: 15px; border-radius: 50%; border: 2px solid white;"></div>`,
+                iconSize: [15, 15],
+                iconAnchor: [7, 7]
+            })
+        };
+        
+        // Store all markers by severity for filtering
+        const markers = {
+            all: [],
+            severe: [],
+            medium: [],
+            low: []
+        };
+        
+        // Create marker clusters
+        const markerClusterGroup = L.layerGroup().addTo(map);
+        
+        // Add markers for each complaint
+        complaintsData.forEach(complaint => {
+            if (complaint.latitude && complaint.longitude) {
+                const lat = parseFloat(complaint.latitude);
+                const lng = parseFloat(complaint.longitude);
+                
+                if (!isNaN(lat) && !isNaN(lng)) {
+                    const popupContent = `
+                        <div class="popup-content">
+                            <img src="/static/${complaint.image}" class="popup-image" onerror="this.src='/static/images/no_image.jpg'">
+                            <div class="popup-title">Pothole Report</div>
+                            <div class="popup-detail"><strong>Description:</strong> ${complaint.description || 'No description provided'}</div>
+                            <div class="popup-detail"><strong>Pothole Count:</strong> ${complaint.pothole_count}</div>
+                            <div class="popup-detail"><strong>Status:</strong> ${complaint.status}</div>
+                            <div class="popup-detail"><strong>Reported:</strong> ${complaint.submission_date}</div>
+                            <a href="/view_complaints#complaint-${complaint.id}" class="view-community-btn">
+                                <i class="fas fa-comments me-2"></i>View in Community
+                            </a>
+                        </div>
+                    `;
+                    
+                    const marker = L.marker([lat, lng], { icon: markerIcons[complaint.severity] })
+                        .bindPopup(popupContent);
+                    
+                    // Add to all markers
+                    markers.all.push(marker);
+                    
+                    // Add to severity-specific markers
+                    markers[complaint.severity].push(marker);
+                    
+                    // Add to map
+                    markerClusterGroup.addLayer(marker);
+                }
+            }
+        });
+        
+        // Add legend
+        const legend = L.control({ position: 'bottomright' });
+        legend.onAdd = function (map) {
+            const div = L.DomUtil.create('div', 'legend');
+            div.innerHTML = `
+                <h6><strong>Pothole Types</strong></h6>
+                <div><i style="background: #dc3545"></i> Severe</div>
+                <div><i style="background: #fd7e14"></i> Medium</div>
+                <div><i style="background: #ffc107"></i> Low</div>
+            `;
+            return div;
+        };
+        legend.addTo(map);
+        
+        // If there are markers, fit the map to their bounds
+        if (markers.all.length > 0) {
+            const group = L.featureGroup(markers.all);
+            map.fitBounds(group.getBounds(), { padding: [50, 50] });
+        }
+        
+        // Filter markers based on severity
+        document.querySelectorAll('.filter-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const filter = this.getAttribute('data-filter');
+                
+                // Update active filter button
+                document.querySelectorAll('.filter-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                    if (btn.getAttribute('data-filter') === 'all') {
+                        btn.classList.remove('btn-dark');
+                        btn.classList.add('btn-outline-dark');
+                    } else if (btn.getAttribute('data-filter') === 'severe') {
+                        btn.classList.remove('btn-danger');
+                        btn.classList.add('btn-outline-danger');
+                    } else if (btn.getAttribute('data-filter') === 'medium') {
+                        btn.classList.remove('btn-warning');
+                        btn.classList.add('btn-outline-warning');
+                    } else if (btn.getAttribute('data-filter') === 'low') {
+                        btn.classList.remove('btn-success');
+                        btn.classList.add('btn-outline-success');
+                    }
+                });
+                
+                this.classList.add('active');
+                if (filter === 'all') {
+                    this.classList.remove('btn-outline-dark');
+                    this.classList.add('btn-dark');
+                } else if (filter === 'severe') {
+                    this.classList.remove('btn-outline-danger');
+                    this.classList.add('btn-danger');
+                } else if (filter === 'medium') {
+                    this.classList.remove('btn-outline-warning');
+                    this.classList.add('btn-warning');
+                } else if (filter === 'low') {
+                    this.classList.remove('btn-outline-success');
+                    this.classList.add('btn-success');
+                }
+                
+                // Clear all markers
+                markerClusterGroup.clearLayers();
+                
+                // Add filtered markers
+                if (filter === 'all') {
+                    markers.all.forEach(marker => markerClusterGroup.addLayer(marker));
+                } else {
+                    markers[filter].forEach(marker => markerClusterGroup.addLayer(marker));
+                }
+                
+                // Fit map to filtered markers if any exist
+                if (markers[filter].length > 0 && filter !== 'all') {
+                    const group = L.featureGroup(markers[filter]);
+                    map.fitBounds(group.getBounds(), { padding: [50, 50] });
+                } else if (markers.all.length > 0 && filter === 'all') {
+                    const group = L.featureGroup(markers.all);
+                    map.fitBounds(group.getBounds(), { padding: [50, 50] });
+                }
+            });
+        });
+        
+        // Locate me functionality
+        document.getElementById('locate-me').addEventListener('click', function() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    function(position) {
+                        const userLat = position.coords.latitude;
+                        const userLng = position.coords.longitude;
+                        
+                        // Create a user marker
+                        const userMarker = L.marker([userLat, userLng], {
+                            icon: L.divIcon({
+                                className: 'custom-div-icon',
+                                html: `<div style="background-color: #007bff; width: 15px; height: 15px; border-radius: 50%; border: 2px solid white;"></div>`,
+                                iconSize: [15, 15],
+                                iconAnchor: [7, 7]
+                            })
+                        }).addTo(map);
+                        
+                        userMarker.bindPopup('<b>Your Location</b>').openPopup();
+                        
+                        // Zoom to user location
+                        map.setView([userLat, userLng], 15);
+                        
+                        // Find nearby potholes (within 2km)
+                        const nearbyPotholes = [];
+                        const userLatLng = L.latLng(userLat, userLng);
+                        
+                        complaintsData.forEach(complaint => {
+                            if (complaint.latitude && complaint.longitude) {
+                                const lat = parseFloat(complaint.latitude);
+                                const lng = parseFloat(complaint.longitude);
+                                
+                                if (!isNaN(lat) && !isNaN(lng)) {
+                                    const potholeLatLng = L.latLng(lat, lng);
+                                    const distance = userLatLng.distanceTo(potholeLatLng) / 1000; // in km
+                                    
+                                    if (distance <= 2) {
+                                        nearbyPotholes.push({
+                                            ...complaint,
+                                            distance: distance.toFixed(2)
+                                        });
+                                    }
+                                }
+                            }
+                        });
+                        
+                        // Show nearby pothole alert
+                        if (nearbyPotholes.length > 0) {
+                            const alertHtml = `
+                                <div class="alert alert-warning alert-dismissible fade show mt-3" role="alert">
+                                    <strong>Caution!</strong> There ${nearbyPotholes.length === 1 ? 'is' : 'are'} ${nearbyPotholes.length} pothole${nearbyPotholes.length === 1 ? '' : 's'} within 2 km of your location.
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            `;
+                            
+                            const alertContainer = document.createElement('div');
+                            alertContainer.classList.add('container');
+                            alertContainer.innerHTML = alertHtml;
+                            
+                            document.body.insertBefore(alertContainer, document.querySelector('.container').nextSibling);
+                        }
+                    },
+                    function(error) {
+                        alert("Error getting your location: " + error.message);
+                    }
+                );
+            } else {
+                alert("Geolocation is not supported by your browser");
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Citizen Login | fixmyroad™</title>
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="static/images/favicon.jpg" rel="icon">
+    <link href="static/images/Budget & Smart Travel Favic0on.jpg" rel="apple-touch-icon">
+    <link href="static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="static/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="static/vendor/aos/aos.css" rel="stylesheet">
+    <link href="static/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+    <link href="static/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+    <link href="static/css/main.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/header.css">
+    
+    <style>
+        :root {
+            --accent-color: #ECB365;
+            --secondary-color: #B4EBE6;
+            --dark-color: #041C32;
+            --light-color: #ffffff;
+            --background-color: rgba(4, 28, 50, 0.95);
+            --contrast-color: #ffffff;
+            --nav-color: #ffffff;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            padding-top: 100px;
+            color: var(--light-color);
+            background-color: #0a2742;
+        }
+
+        .header {
+            background-color: transparent;
+            box-shadow: 0 8px 30px rgba(4, 28, 50, 0.3) !important;
+        }
+
+        .login_page {
+            background: url("/api/placeholder/1200/800") no-repeat center center;
+            background-size: cover;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+        }
+
+        .overlay {
+            background: rgba(4, 28, 50, 0.8);
+            min-height: 100vh;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .login-container {
+            max-width: 480px;
+            width: 100%;
+        }
+
+        .login-box {
+            background-color: #04293A;
+            border-radius: 12px;
+            box-shadow: 0 0 30px rgba(236, 179, 101, 0.2);
+            padding: 40px;
+            border: 1px solid rgba(180, 235, 230, 0.2);
+        }
+
+        .login-title {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .login-title h4 {
+            font-size: 26px;
+            color: #ECB365;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .login-title p {
+            color: #B4EBE6;
+            font-size: 14px;
+        }
+
+        .login-type {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 25px;
+        }
+
+        .login-type-option {
+            display: flex;
+            align-items: center;
+        }
+
+        .login-type-option input[type="radio"] {
+            margin-right: 8px;
+            accent-color: #ECB365;
+            width: 16px;
+            height: 16px;
+        }
+
+        .login-type-option label {
+            font-weight: 500;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #B4EBE6;
+            font-size: 14px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid rgba(180, 235, 230, 0.4);
+            border-radius: 6px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            background-color: rgba(4, 28, 50, 0.6);
+            color: #fff;
+        }
+        .form-control::placeholder {
+            color: #FFF;
+        }
+        .form-control:focus {
+            border-color: #ECB365;
+            outline: none;
+            box-shadow: 0 0 8px rgba(236, 179, 101, 0.3);
+        }
+
+        .btn-login {
+            background-color: #ECB365;
+            color: #041C32;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+
+        .btn-login:hover {
+            background-color: #d9a355;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(236, 179, 101, 0.3);
+        }
+
+        .login-links {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .login-links a {
+            color: #ECB365;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .login-links a:hover {
+            color: #B4EBE6;
+            text-decoration: underline;
+        }
+
+        .tagline {
+            text-align: center;
+            margin: 60px 0 40px;
+        }
+
+        .tagline h2 {
+            font-size: 36px;
+            color: #ECB365;
+            margin-bottom: 10px;
+        }
+
+        .copyright {
+            background: rgba(4, 28, 50, 0.9);
+            padding: 20px;
+            text-align: center;
+            color: #B4EBE6;
+            border-top: 1px solid rgba(180, 235, 230, 0.2);
+        }
+
+        .copyright a {
+            color: #ECB365;
+            text-decoration: none;
+        }
+
+        .copyright a:hover {
+            text-decoration: underline;
+            color: #d9a355;
+        }
+
+        .sitename {
+            color: #ECB365 !important;
+            font-weight: 700;
+        }
+
+        .navmenu ul li a {
+            color: #B4EBE6;
+            transition: color 0.3s;
+        }
+
+        .navmenu ul li a:hover {
+            color: #ECB365;
+        }
+
+        .btn-getstarted {
+            background: #ECB365;
+            color: #041C32;
+            border-radius: 6px;
+            padding: 8px 16px;
+            transition: all 0.3s;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .btn-getstarted:hover {
+            background: #d9a355;
+            color: #041C32;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(236, 179, 101, 0.3);
+        }
+
+        .login-icon {
+            padding: 8px 12px;
+            margin-left: 8px;
+        }
+
+        .animated-text {
+            color: #B4EBE6;
+        }
+
+        .animated-text span {
+            color: #ECB365;
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            .login-box {
+                padding: 30px;
+            }
+            
+            .nav-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .navmenu ul {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .tagline h2 {
+                font-size: 28px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .login-box {
+                padding: 20px;
+            }
+            
+            .login-title h4 {
+                font-size: 20px;
+            }
+
+            .login-type {
+                gap: 15px;
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .tagline h2 {
+                font-size: 24px;
+            }
+        }
+        @keyframes animate {
+    0%{
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+        border-radius: 0;
+    }
+    100%{
+        transform: translateY(-1000px) rotate(720deg);
+        opacity: 0;
+        border-radius: 50%;
+    }
+}
+
+.background {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    margin: 0;
+    padding: 0;
+    background: #041c32;
+    overflow: hidden;
+}
+.background li {
+    position: absolute;
+    display: block;
+    list-style: none;
+    width: 20px;
+    height: 20px;
+    background: rgba(255, 255, 255, 0.2);
+    animation: animate 44s linear infinite;
+}
+
+
+
+
+.background li:nth-child(0) {
+    left: 44%;
+    width: 61px;
+    height: 61px;
+    bottom: -61px;
+    animation-delay: 1s;
+}
+.background li:nth-child(1) {
+    left: 56%;
+    width: 156px;
+    height: 156px;
+    bottom: -156px;
+    animation-delay: 4s;
+}
+.background li:nth-child(2) {
+    left: 8%;
+    width: 156px;
+    height: 156px;
+    bottom: -156px;
+    animation-delay: 8s;
+}
+.background li:nth-child(3) {
+    left: 76%;
+    width: 77px;
+    height: 77px;
+    bottom: -77px;
+    animation-delay: 8s;
+}
+.background li:nth-child(4) {
+    left: 3%;
+    width: 46px;
+    height: 46px;
+    bottom: -46px;
+    animation-delay: 12s;
+}
+.background li:nth-child(5) {
+    left: 4%;
+    width: 128px;
+    height: 128px;
+    bottom: -128px;
+    animation-delay: 4s;
+}
+.background li:nth-child(6) {
+    left: 28%;
+    width: 146px;
+    height: 146px;
+    bottom: -146px;
+    animation-delay: 30s;
+}
+.background li:nth-child(7) {
+    left: 36%;
+    width: 145px;
+    height: 145px;
+    bottom: -145px;
+    animation-delay: 5s;
+}
+.background li:nth-child(8) {
+    left: 88%;
+    width: 149px;
+    height: 149px;
+    bottom: -149px;
+    animation-delay: 39s;
+}
+.background li:nth-child(9) {
+    left: 1%;
+    width: 34px;
+    height: 34px;
+    bottom: -34px;
+    animation-delay: 22s;
+}
+.background li:nth-child(10) {
+    left: 88%;
+    width: 132px;
+    height: 132px;
+    bottom: -132px;
+    animation-delay: 19s;
+}
+.background li:nth-child(11) {
+    left: 75%;
+    width: 7px;
+    height: 7px;
+    bottom: -7px;
+    animation-delay: 31s;
+}
+.background li:nth-child(12) {
+    left: 32%;
+    width: 113px;
+    height: 113px;
+    bottom: -113px;
+    animation-delay: 53s;
+}
+.background li:nth-child(13) {
+    left: 4%;
+    width: 139px;
+    height: 139px;
+    bottom: -139px;
+    animation-delay: 37s;
+}
+.background li:nth-child(14) {
+    left: 35%;
+    width: 83px;
+    height: 83px;
+    bottom: -83px;
+    animation-delay: 35s;
+}
+.background li:nth-child(15) {
+    left: 36%;
+    width: 69px;
+    height: 69px;
+    bottom: -69px;
+    animation-delay: 46s;
+}
+.background li:nth-child(16) {
+    left: 27%;
+    width: 126px;
+    height: 126px;
+    bottom: -126px;
+    animation-delay: 34s;
+}
+.background li:nth-child(17) {
+    left: 29%;
+    width: 51px;
+    height: 51px;
+    bottom: -51px;
+    animation-delay: 6s;
+}
+.background li:nth-child(18) {
+    left: 77%;
+    width: 116px;
+    height: 116px;
+    bottom: -116px;
+    animation-delay: 60s;
+}
+.background li:nth-child(19) {
+    left: 4%;
+    width: 61px;
+    height: 61px;
+    bottom: -61px;
+    animation-delay: 58s;
+}
+.background li:nth-child(20) {
+    left: 69%;
+    width: 146px;
+    height: 146px;
+    bottom: -146px;
+    animation-delay: 1s;
+}
+.background li:nth-child(21) {
+    left: 2%;
+    width: 128px;
+    height: 128px;
+    bottom: -128px;
+    animation-delay: 15s;
+}
+.background li:nth-child(22) {
+    left: 86%;
+    width: 62px;
+    height: 62px;
+    bottom: -62px;
+    animation-delay: 10s;
+}
+.background li:nth-child(23) {
+    left: 19%;
+    width: 85px;
+    height: 85px;
+    bottom: -85px;
+    animation-delay: 33s;
+}
+.background li:nth-child(24) {
+    left: 72%;
+    width: 124px;
+    height: 124px;
+    bottom: -124px;
+    animation-delay: 95s;
+}
+.background li:nth-child(25) {
+    left: 41%;
+    width: 91px;
+    height: 91px;
+    bottom: -91px;
+    animation-delay: 48s;
+}
+.background li:nth-child(26) {
+    left: 24%;
+    width: 132px;
+    height: 132px;
+    bottom: -132px;
+    animation-delay: 67s;
+}
+.background li:nth-child(27) {
+    left: 41%;
+    width: 138px;
+    height: 138px;
+    bottom: -138px;
+    animation-delay: 96s;
+}
+.background li:nth-child(28) {
+    left: 51%;
+    width: 165px;
+    height: 165px;
+    bottom: -165px;
+    animation-delay: 119s;
+}
+.background li:nth-child(29) {
+    left: 14%;
+    width: 98px;
+    height: 98px;
+    bottom: -98px;
+    animation-delay: 117s;
+}
+.background li:nth-child(30) {
+    left: 33%;
+    width: 97px;
+    height: 97px;
+    bottom: -97px;
+    animation-delay: 128s;
+}
+.background li:nth-child(31) {
+    left: 61%;
+    width: 134px;
+    height: 134px;
+    bottom: -134px;
+    animation-delay: 11s;
+}
+.background li:nth-child(32) {
+    left: 41%;
+    width: 85px;
+    height: 85px;
+    bottom: -85px;
+    animation-delay: 5s;
+}
+.background li:nth-child(33) {
+    left: 59%;
+    width: 18px;
+    height: 18px;
+    bottom: -18px;
+    animation-delay: 108s;
+}
+.background li:nth-child(34) {
+    left: 11%;
+    width: 142px;
+    height: 142px;
+    bottom: -142px;
+    animation-delay: 88s;
+}
+.background li:nth-child(35) {
+    left: 76%;
+    width: 163px;
+    height: 163px;
+    bottom: -163px;
+    animation-delay: 117s;
+}
+.background li:nth-child(36) {
+    left: 15%;
+    width: 94px;
+    height: 94px;
+    bottom: -94px;
+    animation-delay: 49s;
+}
+.background li:nth-child(37) {
+    left: 8%;
+    width: 71px;
+    height: 71px;
+    bottom: -71px;
+    animation-delay: 129s;
+}
+.background li:nth-child(38) {
+    left: 76%;
+    width: 11px;
+    height: 11px;
+    bottom: -11px;
+    animation-delay: 77s;
+}
+.background li:nth-child(39) {
+    left: 67%;
+    width: 104px;
+    height: 104px;
+    bottom: -104px;
+    animation-delay: 64s;
+}
+.background li:nth-child(40) {
+    left: 0%;
+    width: 8px;
+    height: 8px;
+    bottom: -8px;
+    animation-delay: 172s;
+}
+.background li:nth-child(41) {
+    left: 44%;
+    width: 1px;
+    height: 1px;
+    bottom: -1px;
+    animation-delay: 197s;
+}
+.background li:nth-child(42) {
+    left: 63%;
+    width: 35px;
+    height: 35px;
+    bottom: -35px;
+    animation-delay: 180s;
+}
+.background li:nth-child(43) {
+    left: 79%;
+    width: 113px;
+    height: 113px;
+    bottom: -113px;
+    animation-delay: 87s;
+}
+.background li:nth-child(44) {
+    left: 34%;
+    width: 114px;
+    height: 114px;
+    bottom: -114px;
+    animation-delay: 90s;
+}
+.background li:nth-child(45) {
+    left: 23%;
+    width: 92px;
+    height: 92px;
+    bottom: -92px;
+    animation-delay: 178s;
+}
+.background li:nth-child(46) {
+    left: 35%;
+    width: 19px;
+    height: 19px;
+    bottom: -19px;
+    animation-delay: 76s;
+}
+.background li:nth-child(47) {
+    left: 39%;
+    width: 137px;
+    height: 137px;
+    bottom: -137px;
+    animation-delay: 191s;
+}
+.blurred {
+    backdrop-filter: blur(10px);
+    background-color: #041c32; /* Optional for translucent effect */
+}
+
+    </style>
+</head>
+<body>
+    <header id="header" class="header d-flex align-items-center fixed-top">
+        <div class="container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
+    
+            <a href="index.html" class="logo d-flex align-items-center me-auto me-lg-0">
+       
+                <a href="#" class="logo">fix<span>myroad</span>™</a>
+              <span>&nbsp;&nbsp;</span>
+            </a>
+    
+          <nav id="navmenu" class="navmenu">
+            <ul>
+              <li><a href="{{ url_for('home') }}">Home&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
+              <li><a href="{{ url_for('home') }}">About Us&nbsp;&nbsp;</a></li>
+              <li><a href="{{ url_for('home') }}">Projects&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
+              <li><a href="{{ url_for('home') }}#contact">Contact Us&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
+            </ul>
+            <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+          </nav>
+          
+          {% if user %}
+            <div class="button-group">
+                <a class="btn-getstarted login-icon" href="#" title="Profile">
+                    <i class="bi bi-person"></i>
+                </a>
+                <a class="btn-getstarted login-icon" href="{{ url_for('logout') }}" title="Logout">
+                    <i class="bi bi-box-arrow-right"></i>
+                </a>
+            </div>
+          {% else %}
+            <div class="button-group">
+                <a class="btn-getstarted" href="{{ url_for('home') }}">Back</a>
+                <a class="btn-getstarted" href="{{ url_for('register') }}">Register</a>
+            </div>
+          {% endif %}
+        </div>
+        
+        {% if user %}
+        <div class="text-animation-container">
+          <div><p class="animated-text line-1 anim-typewriter">
+            Welcome, <span>{{ first_name }}</span></p>
+          </div>
+        </div>
+        {% endif %}
+    </header>
+    <ul class="background" style="z-index: -10;">
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+     </ul>
+
+    <div class="login_page">
+        <div class="overlay">
+            <div class="login-container">
+               
+                <div class="login-box">
+                    <form method="POST" action="{{ url_for('login') }}" novalidate>
+                        <div class="login-title">
+                            <h4>Citizen Login</h4>
+                            <p>Login with your registered email address</p>
+                        </div>
+
+                        <div class="login-type">
+                            <div class="login-type-option">
+                                <input type="radio" id="userType" name="loginType" value="user" checked>
+                                <label for="userType">Login as User</label>
+                            </div>
+                            <div class="login-type-option">
+                                <input type="radio" id="adminType" name="loginType" value="admin">
+                                <label for="adminType">Login as Administrator</label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Email <span style="color:#ECB365">*</span></label>
+                            <input type="email" id="email" name="email" class="form-control form-control1" 
+                                   placeholder="Enter your email" required 
+                                   pattern="[^@\s]+@[^@\s]+\.[^@\s]+" />
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password <span style="color:#ECB365">*</span></label>
+                            <input type="password" id="password" name="password" 
+                                   class="form-control form-control1" placeholder="Enter password" required 
+                                   minlength="6" />
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn-login">Login</button>
+                        </div>
+                        {% if error %}
+                            <div class="login-error" style="color: red; margin-bottom: 15px; font-weight: bold; text-align: center;">
+                                {{ error }}
+                            </div>
+                        {% endif %}
+
+                        <div class="login-links">
+                            <a href="{{ url_for('register') }}"><span>Register Now</span></a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="copyright">
+        <p>&copy; 2025 fixmyroad™. All Rights Reserved.</p>
+        <p>Designed &amp; Developed by <a href="#" target="_blank">fixmyroad™ Team</a></p>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileNavToggle = document.querySelector('.mobile-nav-toggle');
+            const body = document.querySelector('body');
+            
+            if (mobileNavToggle) {
+                mobileNavToggle.addEventListener('click', function(e) {
+                    body.classList.toggle('mobile-nav-active');
+                    this.classList.toggle('bi-list');
+                    this.classList.toggle('bi-x');
+                });
+            }
+        
+            window.addEventListener('scroll', function () {
+    if (window.scrollY > 100) {
+        // body.classList.add('scrolled');
+        header.classList.add('blurred');
+    } else {
+        // body.classList.remove('scrolled');
+        header.classList.remove('blurred');
+    }
+});
+
+        });
+    </script>
+</body>
+</html>

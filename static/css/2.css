@@ -1,0 +1,325 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    color: #333;
+    line-height: 1.6;
+}
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+.section-head {
+    text-align: center;
+    margin-bottom: 40px;
+}
+.mt-separator {
+    position: relative;
+    margin-bottom: 30px;
+}
+.sep-line-one {
+    position: relative;
+    font-size: 36px;
+    font-weight: 700;
+    margin: 0;
+}
+.font-weight-300 {
+    font-weight: 300;
+}
+.text-primary {
+    color: #ffc107;
+}
+.header-design {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 40px;
+}
+.header-design::before, .header-design::after {
+    content: "";
+    height: 2px;
+    width: 100px;
+    background-color: #ffc107;
+    margin: 0 20px;
+}
+.content-wrapper {
+    display: flex;
+    margin-bottom: 20px;
+}
+.image-container {
+    width: 25%;
+    padding-right: 15px;
+}
+.text-container {
+    width: 75%;
+}
+.product-image {
+    max-width: 100%;
+    height: auto;
+}
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+.col-left {
+    flex: 0 0 91.666667%;
+    max-width: 91.666667%;
+    padding-right: 15px;
+}
+.col-right {
+    flex: 0 0 8.333333%;
+    max-width: 8.333333%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.col-full {
+    width: 100%;
+    margin-bottom: 20px;
+}
+.road-inssta {
+    background-color: #f9f9f9;
+    padding: 15px;
+    border-left: 4px solid #ffc107;
+    margin-bottom: 20px;
+}
+.highlight {
+    font-weight: bold;
+}
+.escap-logo {
+    max-height: 84px;
+}
+.text-justify {
+    text-align: justify;
+}
+.hashtag {
+    color: #333;
+    font-weight: bold;
+}
+.revolutionary-text {
+    clear: both;
+    padding-top: 15px;
+}
+@media (max-width: 768px) {
+    .content-wrapper {
+        flex-direction: column;
+    }
+    .image-container, .text-container {
+        width: 100%;
+        padding-right: 0;
+    }
+    .image-container {
+        margin-bottom: 15px;
+    }
+    .col-left, .col-right {
+        flex: 0 0 100%;
+        max-width: 100%;
+        padding-right: 0;
+    }
+    .header-design::before, .header-design::after {
+        width: 50px;
+    }
+}
+/* Service Half Top */
+.Service-half-top {
+    position: relative;
+    z-index: 1;
+    background-position: center;
+    background-size: cover;
+    padding-bottom: 70px;
+}
+
+.section-head {
+    margin-bottom: 30px;
+}
+
+.mt-separator-outer {
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.separator-left {
+    text-align: left;
+}
+
+.mt-separator {
+    display: inline-block;
+    position: relative;
+}
+
+.sep-line-one {
+    position: relative;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+}
+
+.sep-line-one:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 50px;
+    height: 3px;
+    background-color: #ff5e15;
+}
+
+/* Improved Animation */
+.scale-in-center {
+    animation: scale-in-center 1s cubic-bezier(0.250, 0.460, 0.450, 0.940) both; /* Extended duration */
+    animation-fill-mode: both; /* Ensures animation stays at the end state */
+}
+
+@keyframes scale-in-center {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* 3D Animation for SERVICES text - ADJUSTED POSITION */
+.hilite-title {
+    position: absolute;
+    bottom: -50px; /* Moved lower as requested */
+    left: 0;
+    right: 0;
+    z-index: 10;
+    perspective: 1000px;
+    height: 140px; /* Set explicit height to contain the text */
+    overflow: visible; /* Allow content to overflow */
+}
+
+.p-l50 {
+    padding-left: 50px;
+}
+
+.text-left {
+    text-align: left;
+}
+
+/* 3D Animation for Services Title */
+.three-d-title {
+    position: relative;
+    font-size: 120px;
+    line-height: 0.8;
+    color: rgba(0,0,0,0.05);
+    font-weight: 900;
+    display: block;
+    transform-style: preserve-3d;
+    animation: float-updown 6s infinite ease-in-out;
+    will-change: transform; /* Optimization for animations */
+}
+
+@keyframes float-updown {
+    0% {
+        transform: translateY(0px) rotateX(0deg);
+    }
+    50% {
+        transform: translateY(-30px) rotateX(5deg); /* Added slight rotation */
+    }
+    100% {
+        transform: translateY(0px) rotateX(0deg);
+    }
+}
+
+/* Create 3D text layer effect */
+.three-d-title:before,
+.three-d-title:after {
+    content: 'SERVICES';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    transform-style: preserve-3d;
+}
+
+.three-d-title:before {
+    transform: translateZ(-10px);
+    color: rgba(0,0,0,0.1);
+}
+
+.three-d-title:after {
+    transform: translateZ(10px);
+    color: rgba(0,0,0,0.2);
+}
+
+/* Service box hover effect - enhanced */
+.mt-icon-box-wraper:hover {
+    transform: translateY(-15px) scale(1.03); /* Slightly larger movement and scale */
+    box-shadow: 0 15px 30px rgba(0,0,0,0.15); /* Stronger shadow */
+}
+
+/* Icon pulse effect on hover */
+.mt-icon-box-wraper:hover .icon-md img {
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Square Shape */
+.square_shape2:after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 50%;
+    height: 0;
+    border-top: 100px solid #f5f5f5;
+    border-right: 100px solid transparent;
+}
+
+/* Responsive */
+@media only screen and (max-width: 1024px) {
+    .grams-service {
+        flex: 0 0 33.33%;
+        max-width: 33.33%;
+    }
+    .three-d-title {
+        font-size: 80px;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .grams-service {
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
+    .three-d-title {
+        font-size: 60px;
+    }
+    .square_shape2:after {
+        display: none;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    .grams-service {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+    .three-d-title {
+        font-size: 40px;
+    }
+    
+    /* Ensure animations are visible on mobile */
+    .section-full {
+        overflow: visible;
+        padding-bottom: 100px;
+    }
+}

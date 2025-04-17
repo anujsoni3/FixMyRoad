@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your_Status™</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"/>
+    <link href="static/images/favicon.jpg" rel="icon">
+    <link href="static/images/Budget & Smart Travel Favic0on.jpg" rel="apple-touch-icon">
+    <link href="static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="static/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="static/vendor/aos/aos.css" rel="stylesheet">
+    <link href="static/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+    <link href="static/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+    <link href="static/css/main.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/header.css">
+    <!-- Add FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+         :root {
+            --primary-color: #ECB365;    /* Amber/gold accent color */
+            --secondary-color: #B4EBE6;  /* Soft teal */
+            --dark-bg: #041C32;          /* Deep navy blue background */
+            --darker-bg: #020F1C;        /* Darker navy for contrast */
+            --light-text: #F5F5F5;       /* Light text */
+            --teal-light: #D4F5F2;       /* Lighter teal for hover states */
+            --gold-light: #F2D093;       /* Lighter gold for hover states */
+            --success-color: #4CAF50;    /* Success green */
+            --warning-color: #FF9800;    /* Warning orange */
+            --error-color: #F44336;      /* Error red */
+            
+            /* Header vars */
+            --default-color: #F5F5F5;    
+            --background-color: #041C32; 
+            --heading-color: #F5F5F5;    
+            --contrast-color: #ffffff;   
+            --accent-color: #ECB365;     
+            --heading-font: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            --nav-color: #F5F5F5;        
+            --nav-font: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--dark-bg);
+            color: var(--light-text);
+            background-image: 
+                linear-gradient(rgba(4, 41, 58, 0.92), rgba(4, 41, 58, 0.92)), 
+                url('https://via.placeholder.com/1920x1080');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            padding-top: 100px;
+            position: relative;
+        }
+
+        /* Add subtle pattern overlay */
+        body:before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ECB365' fill-opacity='0.03' fill-rule='evenodd'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* Navbar styling */
+        a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        a:hover {
+            color: var(--gold-light);
+            text-decoration: none;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            color: var(--heading-color);
+            font-family: var(--heading-font);
+        }
+
+        .header {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            border-bottom: 1px solid rgba(236, 179, 101, 0.1);
+            background-color: #041C32;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            transition: all 0.3s;
+        }
+
+        .header .logo h1 {
+            font-size: 38px;
+            margin: 0;
+            font-weight: 800;
+            color: #ffffff;
+            letter-spacing: 1px;
+            transition: all 0.4s ease;
+        }
+
+        .header .logo h1:hover {
+            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.5), 0 0 15px rgba(255, 255, 255, 0.3);
+            letter-spacing: 1.5px;
+        }
+
+        .header .logo span {
+            color: var(--accent-color);
+            font-size: 38px;
+            font-weight: 800;
+            text-shadow: 0 0 10px rgba(236, 179, 101, 0.4);
+            transition: all 0.4s ease;
+        }
+
+        /* Navbar menu */
+        .navmenu ul {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navmenu a {
+            display: block;
+            padding: 10px 15px;
+            color: var(--nav-color);
+            font-weight: 600;
+            transition: 0.3s;
+            font-family: var(--nav-font);
+        }
+
+        .navmenu a:hover {
+            color: var(--accent-color);
+        }
+
+        .btn-getstarted {
+            padding: 8px 20px;
+            border-radius: 4px;
+            background-color: var(--accent-color);
+            /* color: var(--dark-bg) !important; */
+            font-weight: 600;
+            transition: 0.3s ease;
+            color: #fff;
+        }
+
+        .btn-getstarted:hover {
+            background-color: var(--gold-light);
+            box-shadow: 0 5px 15px rgba(236, 179, 101, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* Animated background elements */
+        .background {
+            position: fixed;
+            width: 100vw;
+            height: 100vh;
+            top: 0;
+            left: 0;
+            margin: 0;
+            padding: 0;
+            background: var(--dark-bg);
+            overflow: hidden;
+            z-index: -2;
+        }
+
+        .background li {
+            position: absolute;
+            display: block;
+            list-style: none;
+            width: 20px;
+            height: 20px;
+            background: rgba(236, 179, 101, 0.2);
+            animation: animate 45s linear infinite;
+        }
+
+        .background li:nth-child(1) {
+            left: 23%;
+            width: 3px;
+            height: 3px;
+            bottom: -3px;
+            animation-delay: 3s;
+        }
+
+        .background li:nth-child(2) {
+            left: 80%;
+            width: 84px;
+            height: 84px;
+            bottom: -84px;
+            animation-delay: 13s;
+        }
+
+        .background li:nth-child(3) {
+            left: 5%;
+            width: 279px;
+            height: 279px;
+            bottom: -279px;
+            animation-delay: 15s;
+        }
+
+        @keyframes animate {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+                border-radius: 0;
+            }
+            100% {
+                transform: translateY(-1000px) rotate(720deg);
+                opacity: 0;
+                border-radius: 50%;
+            }
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--primary-color);
+        }
+
+        .blurred {
+            backdrop-filter: blur(10px);
+            background-color: rgba(4, 41, 58, 0.85);
+        }
+
+        /* User profile and complaints styling */
+        .container {
+            max-width: 1200px;
+            margin: 50px auto;
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            gap: 20px;
+            padding: 0 15px;
+        }
+
+        .profile-card {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 2px 10px rgba(235, 195, 101, 0.2);
+            text-align: center;
+            height: fit-content;
+            border: 1px solid var(--border-color);
+        }
+
+        .profile-image {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            border: 4px solid var(--primary-color);
+            object-fit: cover;
+            display: block;
+        }
+
+        .user-name {
+            color: var(--primary-color);
+            font-size: 28px;
+            margin-bottom: 5px;
+        }
+
+        .user-email {
+            color: var(--secondary-color);
+            margin-bottom: 30px;
+        }
+
+        .stats-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .stat {
+            flex: 1;
+        }
+
+        .stat-number {
+            font-size: 32px;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .stat-label {
+            color: var(--secondary-color);
+            font-size: 14px;
+        }
+
+        .content-section {
+            flex: 1;
+        }
+
+        .content-title {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            font-size: 28px;
+            border-bottom: 3px solid var(--primary-color);
+            padding-bottom: 10px;
+        }
+
+        .section-header {
+            color: var(--primary-color);
+            margin: 30px 0 15px;
+            font-size: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .section-header:first-of-type {
+            margin-top: 0;
+        }
+
+        .complaints-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+            gap: 20px;
+        }
+
+        .complaint-card {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            border: 1px solid var(--border-color);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .complaint-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(235, 195, 101, 0.3);
+        }
+
+        .complaint-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .complaint-details {
+            padding: 20px;
+        }
+
+        .complaint-description {
+            margin-bottom: 15px;
+            font-size: 18px;
+            color: var(--primary-color);
+        }
+
+        .complaint-meta {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            row-gap: 10px;
+            margin-top: 20px;
+        }
+
+        .meta-item {
+            font-size: 14px;
+        }
+
+        .meta-label {
+            font-weight: bold;
+            color: var(--secondary-color);
+        }
+
+        .complaint-status {
+            margin-top: 20px;
+            position: relative;
+        }
+
+        .status-title {
+            font-size: 16px;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .status-track {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            z-index: 1;
+            margin-bottom: 5px;
+        }
+
+        /* Progress line behind the steps */
+        .status-track::before {
+            content: '';
+            position: absolute;
+            height: 3px;
+            background-color: var(--border-color);
+            top: 50%;
+            transform: translateY(-50%);
+            left: 0;
+            right: 0;
+            z-index: -1;
+        }
+
+        /* Colored progress line */
+        .status-progress {
+            position: absolute;
+            height: 3px;
+            top: 50%;
+            transform: translateY(-50%);
+            left: 0;
+            z-index: -1;
+            transition: width 0.3s ease;
+        }
+
+        /* Different progress line colors based on status */
+        .status-progress-submitted {
+            background-color: var(--secondary-color); /* Using the blue */
+            width: 33%;
+        }
+
+        .status-progress-verified {
+            background-color: var(--secondary-color); /* Using the blue */
+            width: 66%;
+        }
+
+        .status-progress-pending {
+            background-color: var(--secondary-color); /* Using the blue */
+            width: 99%;
+        }
+
+        .status-progress-solved {
+            background-color: var(--primary-color); /* Using the gold */
+            width: 100%;
+        }
+
+        .status-step {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background-color: var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Status circle styling */
+        .status-step.completed {
+            background-color: var(--primary-color); /* Gold for completed */
+        }
+
+        .status-step.submitted.active {
+            background-color: var(--secondary-color); /* Blue for active */
+        }
+
+        .status-step.verified.active {
+            background-color: var(--secondary-color); /* Blue for active */
+        }
+
+        .status-step.pending.active {
+            background-color: var(--secondary-color); /* Blue for active */
+        }
+
+        .status-step.solved.active {
+            background-color: var(--primary-color); /* Gold for final step */
+        }
+
+        /* Add checkmark icon to completed steps */
+        .status-step .checkmark {
+            font-size: 14px;
+            display: none;
+        }
+
+        .status-step.completed .checkmark {
+            display: block;
+        }
+
+        .status-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        .status-label {
+            width: 25%;
+            text-align: center;
+            color: #aaa;
+        }
+
+        .status-label.active {
+            font-weight: bold;
+            color: var(--secondary-color);
+        }
+
+        .no-complaints {
+            background-color: var(--card-bg);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            border: 1px solid var(--border-color);
+        }
+
+        /* Responsive layout for mobile */
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+            
+            .complaints-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        /* Back button */
+        .back-btn {
+            margin-top: 1.5rem;
+            text-align: center;
+        }
+        
+        .back-btn button {
+            background-color: transparent;
+            color: var(--secondary-color);
+            border: 1px solid var(--secondary-color);
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin: 0 auto;
+        }
+        
+        .back-btn button:hover {
+            background-color: rgba(180, 235, 230, 0.1);
+            border-color: var(--teal-light);
+            transform: translateY(-2px);
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+    <ul class="background">
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+     </ul>
+    <!-- Header -->
+    <header id="header" class="header">
+        <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
+          <a href="#" class="logo d-flex align-items-center me-auto me-lg-0">
+            <a href="#" class="logo">fix<span>myroad</span>™</a>
+            <span>&nbsp;&nbsp;</span>
+          </a>
+    
+          <nav id="navmenu" class="navmenu">
+            <ul>
+              <li><a href="{{ url_for('home') }}">Home&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
+              <li><a href="{{ url_for('your_complaint_status') }}">My Complaints&nbsp;&nbsp;</a></li>
+              <li><a href="{{ url_for('view_on_map') }}">Map View&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
+              <li><a href="{{ url_for('view_complaints') }}">Community&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
+            </ul>
+            <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+          </nav>
+          
+          <div class="button-group back-btn">
+            <a class="btn-getstarted" href="/" >Back</a>
+          </div>
+        </div>
+    </header>
+    
+
+    <!-- User Profile and Complaints Data -->
+    <div class="container">
+        <div class="profile-card">
+            <img src="https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg" alt="Profile Picture" class="profile-image">
+            <h2 class="user-name">{{ user['first_name'] }} {{ user['last_name'] }}</h2>
+            <p class="user-email">{{ user['email'] }}</p>
+            
+            <div class="stats-container">
+                <div class="stat">
+                    <div class="stat-number">{{ complaints_count }}</div>
+                    <div class="stat-label">Complaints</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">{{ resolved_count }}</div>
+                    <div class="stat-label">Resolved</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">{{ pending_count }}</div>
+                    <div class="stat-label">Pending</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="content-section">
+            <h1 class="content-title">Your Reports</h1>
+            
+            {% if active_complaints or resolved_complaints %}
+                <!-- Active Complaints Section -->
+                {% if active_complaints %}
+                    <h2 class="section-header">Active Complaints</h2>
+                    <div class="complaints-grid">
+                        {% for complaint in active_complaints %}
+                            <div class="complaint-card">
+                                <img src="{{ url_for('static', filename=complaint['image']) }}" alt="Pothole Image" class="complaint-image">
+                                <div class="complaint-details">
+                                    <h3 class="complaint-description">Description</h3>
+                                    <p>{{ complaint['description'] }}</p>
+                                    
+                                    <div class="complaint-meta">
+                                        <div class="meta-item">
+                                            <span class="meta-label">Reported On</span><br>
+                                            {{ complaint.get('submission_date', 'N/A').strftime('%d %b %Y') if complaint.get('submission_date') else 'N/A' }}
+                                        </div>
+                                        <div class="meta-item">
+                                            <span class="meta-label">Location</span><br>
+                                            Near {% if complaint.get('latitude') and complaint.get('longitude') %}
+                                                {{ complaint.get('latitude')[:6] }}, {{ complaint.get('longitude')[:6] }}
+                                            {% else %}
+                                                N/A
+                                            {% endif %}
+                                        </div>
+                                        <div class="meta-item">
+                                            <span class="meta-label">Upvote</span><br>
+                                            {{ complaint.get('upvotes', 0) }}
+                                        </div>
+                                        <div class="meta-item">
+                                            <span class="meta-label">Downvote</span><br>
+                                            {{ complaint.get('downvotes', 0) }}
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Status tracking -->
+                                    <div class="complaint-status">
+                                        <h4 class="status-title">Complaint Status</h4>
+                                        <div class="status-track">
+                                            {% if complaint.get('validated_by_model') == 1 and complaint.get('complaint_approved_by_admin', False) %}
+                                                <!-- Pending - all steps up to pending are completed -->
+                                                <div class="status-progress status-progress-pending"></div>
+                                                <div class="status-step submitted completed">
+                                                    <i class="fas fa-check checkmark"></i>
+                                                </div>
+                                                <div class="status-step verified completed">
+                                                    <i class="fas fa-check checkmark"></i>
+                                                </div>
+                                                <div class="status-step pending active">
+                                                    <i class="fas fa-check checkmark"></i>
+                                                </div>
+                                                <div class="status-step solved">
+                                                </div>
+                                            {% elif complaint.get('validated_by_model') == 1 %}
+                                                <!-- Verified - submitted and verified are completed -->
+                                                <div class="status-progress status-progress-verified"></div>
+                                                <div class="status-step submitted completed">
+                                                    <i class="fas fa-check checkmark"></i>
+                                                </div>
+                                                <div class="status-step verified active">
+                                                    <i class="fas fa-check checkmark"></i>
+                                                </div>
+                                                <div class="status-step pending">
+                                                </div>
+                                                <div class="status-step solved">
+                                                </div>
+                                            {% else %}
+                                                <!-- Submitted - only submitted is completed -->
+                                                <div class="status-progress status-progress-submitted"></div>
+                                                <div class="status-step submitted active">
+                                                    <i class="fas fa-check checkmark"></i>
+                                                </div>
+                                                <div class="status-step verified">
+                                                </div>
+                                                <div class="status-step pending">
+                                                </div>
+                                                <div class="status-step solved">
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                        <div class="status-labels">
+                                            <div class="status-label active">Submitted</div>
+                                            <div class="status-label {{ 'active' if complaint.get('validated_by_model') == 1 }}">Verified</div>
+                                            <div class="status-label {{ 'active' if complaint.get('complaint_approved_by_admin', False) }}">Pending</div>
+                                            <div class="status-label">Solved</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                
+                <!-- Resolved Complaints Section -->
+                {% if resolved_complaints %}
+                    <h2 class="section-header">Resolved Complaints</h2>
+                    <div class="complaints-grid">
+                        {% for complaint in resolved_complaints %}
+                            <div class="complaint-card">
+                                <img src="{{ url_for('static', filename=complaint['image']) }}" alt="Pothole Image" class="complaint-image">
+                                <div class="complaint-details">
+                                    <h3 class="complaint-description">Description</h3>
+                                    <p>{{ complaint['description'] }}</p>
+                                    
+                                    <div class="complaint-meta">
+                                        <div class="meta-item">
+                                            <span class="meta-label">Reported On</span><br>
+                                            {{ complaint.get('submission_date', 'N/A').strftime('%d %b %Y') if complaint.get('submission_date') else 'N/A' }}
+                                        </div>
+                                        <div class="meta-item">
+                                            <span class="meta-label">Location</span><br>
+                                            Near {% if complaint.get('latitude') and complaint.get('longitude') %}
+                                                {{ complaint.get('latitude')[:6] }}, {{ complaint.get('longitude')[:6] }}
+                                            {% else %}
+                                                N/A
+                                            {% endif %}
+                                        </div>
+                                        <div class="meta-item">
+                                            <span class="meta-label">Upvote</span><br>
+                                            {{ complaint.get('upvotes', 0) }}
+                                        </div>
+                                        <div class="meta-item">
+                                            <span class="meta-label">Downvote</span><br>
+                                            {{ complaint.get('downvotes', 0) }}
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="complaint-status">
+                                        <h4 class="status-title">Complaint Status</h4>
+                                        <div class="status-track">
+                                            <div class="status-progress status-progress-solved"></div>
+                                            <div class="status-step submitted completed">
+                                                <i class="fas fa-check checkmark"></i>
+                                            </div>
+                                            <div class="status-step verified completed">
+                                                <i class="fas fa-check checkmark"></i>
+                                            </div>
+                                            <div class="status-step pending completed">
+                                                <i class="fas fa-check checkmark"></i>
+                                            </div>
+                                            <div class="status-step solved active">
+                                                <i class="fas fa-check checkmark"></i>
+                                            </div>
+                                        </div>
+                                        <div class="status-labels">
+                                            <div class="status-label active">Submitted</div>
+                                            <div class="status-label active">Verified</div>
+                                            <div class="status-label active">Pending</div>
+                                            <div class="status-label active">Solved</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% else %}
+                <div class="no-complaints">
+                    <p>No complaints found for your account.</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    
+
+    
+    <!-- Add Leaflet JS -->
+    <script>
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 100) {
+                header.classList.add('blurred');
+            } else {
+                header.classList.remove('blurred');
+            }
+        });
+    </script>
+</body>
+</html>

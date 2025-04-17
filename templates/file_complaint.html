@@ -1,0 +1,1373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Complaint | fixmyroad™</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"/>
+    <link href="static/images/favicon.jpg" rel="icon">
+    <link href="static/images/Budget & Smart Travel Favic0on.jpg" rel="apple-touch-icon">
+    <link href="static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="static/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="static/vendor/aos/aos.css" rel="stylesheet">
+    <link href="static/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+    <link href="static/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+    <link href="static/css/main.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/header.css">
+    <!-- Add FontAwesome for more icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #ECB365;    /* Amber/gold accent color */
+            --secondary-color: #B4EBE6;  /* Soft teal */
+            --dark-bg: #041C32;          /* Deep navy blue background */
+            --darker-bg: #020F1C;        /* Darker navy for contrast */
+            --light-text: #F5F5F5;       /* Light text */
+            --teal-light: #D4F5F2;       /* Lighter teal for hover states */
+            --gold-light: #F2D093;       /* Lighter gold for hover states */
+            --success-color: #4CAF50;    /* Success green */
+            --warning-color: #FF9800;    /* Warning orange */
+            --error-color: #F44336;      /* Error red */
+            
+            /* Header vars */
+            --default-color: #F5F5F5;    
+            --background-color: #041C32; 
+            --heading-color: #F5F5F5;    
+            --contrast-color: #ffffff;   
+            --accent-color: #ECB365;     
+            --heading-font: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            --nav-color: #F5F5F5;        
+            --nav-font: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--dark-bg);
+            color: var(--light-text);
+            background-image: 
+                linear-gradient(rgba(4, 28, 50, 0.92), rgba(4, 28, 50, 0.92)), 
+                url('https://via.placeholder.com/1920x1080');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            padding-top: 100px;
+            position: relative;
+        }
+        
+        /* Add subtle pattern overlay */
+        body:before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23b4ebe6' fill-opacity='0.03' fill-rule='evenodd'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: 0.3s;
+        }
+        
+        a:hover {
+            color: var(--gold-light);
+            text-decoration: none;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            color: var(--heading-color);
+            font-family: var(--heading-font);
+        }
+        
+        .header {
+            
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            border-bottom: 1px solid rgba(180, 235, 230, 0.1);
+        }
+        
+        .header .logo h1 {
+            font-size: 38px;
+            margin: 0;
+            font-weight: 800;
+            color: #ffffff;
+            letter-spacing: 1px;
+            
+            transition: all 0.4s ease;
+        }
+        
+        .header .logo h1:hover {
+            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.5), 0 0 15px rgba(255, 255, 255, 0.3);
+            letter-spacing: 1.5px;
+        }
+        
+        .header .logo span {
+            color: var(--accent-color);
+            font-size: 38px;
+            font-weight: 800;
+            text-shadow: 0 0 10px rgba(236, 179, 101, 0.4);
+            transition: all 0.4s ease;
+        }
+        
+       
+        
+        /* Animations */
+        @keyframes logoReveal {
+            0% {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            70% {
+                opacity: 1;
+                transform: scale(1.1);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        @keyframes navItemsReveal {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes buttonReveal {
+            0% {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes fadeInOut {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; }
+        }
+        
+        @keyframes slideIn {
+            0% { transform: translateY(20px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes shimmer {
+            0% { background-position: -100% 0; }
+            100% { background-position: 100% 0; }
+        }
+        
+        /* Form container */
+        .container {
+            max-width: 800px;
+            margin: 6rem auto 2rem;
+            padding: 2rem;
+            background-color: rgba(4, 28, 50, 0.9);
+            border-radius: 15px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3), 0 0 20px rgba(180, 235, 230, 0.1);
+            border: 1px solid rgba(180, 235, 230, 0.15);
+            animation: slideIn 0.8s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .container:before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(180, 235, 230, 0.03) 0%, rgba(180, 235, 230, 0) 70%);
+            z-index: -1;
+        }
+        
+        .form-title {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            text-align: center;
+            font-size: 32px;
+            font-weight: 600;
+            position: relative;
+            padding-bottom: 20px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .form-title:after {
+            content: '';
+            position: absolute;
+            width: 70px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--secondary-color), transparent);
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+        
+        .form-title i {
+            margin-right: 12px;
+            color: var(--primary-color);
+        }
+        
+        /* Form styles */
+        .form-group {
+            margin-bottom: 1.8rem;
+            position: relative;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 0.7rem;
+            font-weight: 500;
+            color: var(--secondary-color);
+            font-size: 1.05rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .form-label i {
+            margin-right: 8px;
+            font-size: 1.2rem;
+            color: var(--primary-color);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 0.85rem 1rem 0.85rem 2.5rem;
+            border: 1px solid rgba(180, 235, 230, 0.2);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s;
+            background-color: rgba(255, 255, 255, 0.05);
+            color: var(--light-text);
+        }
+        .form-control1::placeholder {
+  color: #fff; /* or any color you want */
+  opacity: 1;
+}
+        
+        .form-control:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            /* box-shadow: 0 0 0 3px rgba(236, 179, 101, 0.2), 0 0 15px rgba(236, 179, 101, 0.1); */
+            /* background-color: rgba(255, 255, 255, 0.1); */
+        }
+        
+        .form-group .input-icon {
+            position: absolute;
+            left: 12px;
+            top: 40px;
+            /* color: var(--primary-color); */
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+        
+        .form-group:focus-within .input-icon {
+            color: var(--gold-light);
+        }
+        
+        textarea.form-control {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        /* Image upload */
+        .image-upload {
+            border: 2px dashed var(--secondary-color);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            background-color: rgba(180, 235, 230, 0.05);
+            transition: all 0.4s;
+            position: relative;
+        }
+        
+        .image-upload:hover {
+            border-color: var(--primary-color);
+            background-color: rgba(180, 235, 230, 0.08);
+            transform: translateY(-2px);
+        }
+        
+        .image-upload .upload-icon {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            animation: pulse 2s infinite ease-in-out;
+        }
+        
+        .image-instructions {
+            font-size: 0.9rem;
+            color: #B4EBE6;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+        
+        .image-instructions p {
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .image-instructions i {
+            color: var(--primary-color);
+            margin-right: 8px;
+            font-size: 16px;
+        }
+        
+        .image-preview {
+            max-width: 100%;
+            max-height: 300px;
+            margin-top: 1.5rem;
+            display: none;
+            border-radius: 10px;
+            border: 1px solid var(--secondary-color);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2), 0 0 10px rgba(180, 235, 230, 0.1);
+            transition: all 0.3s;
+        }
+        
+        .image-preview:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3), 0 0 15px rgba(180, 235, 230, 0.2);
+        }
+        
+        /* Button styles */
+        .btn {
+            display: inline-block;
+            padding: 0.85rem 1.5rem;
+            background-color: var(--primary-color);
+            color: #041C32;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .btn:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, rgba(255,255,255,0.1), rgba(255,255,255,0));
+            transition: all 0.6s;
+            z-index: -1;
+        }
+        
+        .btn:hover {
+            background-color: var(--gold-light);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2), 0 0 10px rgba(236, 179, 101, 0.3);
+        }
+        
+        .btn:hover:before {
+            left: 100%;
+        }
+        
+        .btn-current-location {
+            background-color: var(--secondary-color);
+            color: var(--dark-bg);
+            margin-top: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .btn-current-location:hover {
+            background-color: var(--teal-light);
+        }
+        
+        .btn-current-location i {
+            font-size: 18px;
+        }
+        
+        /* Map container */
+        .map-container {
+            height: 400px;
+            width: 100%;
+            background-color: #071f33;
+            margin-top: 1rem;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid rgba(180, 235, 230, 0.3);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            position: relative;
+            transition: all 0.3s;
+        }
+        
+        .map-container:hover {
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3), 0 0 15px rgba(180, 235, 230, 0.15);
+        }
+        
+        .map-overlay {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(4, 28, 50, 0.8);
+            padding: 8px;
+            border-radius: 6px;
+            z-index: 1000;
+            border: 1px solid rgba(180, 235, 230, 0.2);
+        }
+        
+        .map-help-btn {
+            background: var(--primary-color);
+            color: var(--dark-bg);
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Submit button */
+        .btn-submit {
+            width: 100%;
+            padding: 1.2rem;
+            font-size: 1.15rem;
+            background-color: var(--primary-color);
+            color: var(--dark-bg);
+            font-weight: 600;
+            margin-top: 2rem;
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .btn-submit:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 100%;
+            background-color: var(--gold-light);
+            transition: all 0.5s;
+            z-index: -1;
+        }
+        
+        .btn-submit:hover:before {
+            width: 100%;
+        }
+        
+        .btn-submit:hover {
+            box-shadow: 0 5px 20px rgba(236, 179, 101, 0.4);
+            transform: translateY(-3px);
+        }
+        
+        .btn-submit i {
+            font-size: 20px;
+            transition: transform 0.3s;
+        }
+        
+        .btn-submit:hover i {
+            transform: translateX(5px);
+        }
+        
+        /* Location confirmation controls */
+        .location-controls {
+            margin-top: 1rem;
+            display: flex;
+            gap: 15px;
+        }
+        
+        .confirm-btn {
+            background-color: rgba(76, 175, 80, 0.9);
+            color: white;
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            border-radius: 8px;
+        }
+        
+        .confirm-btn:hover {
+            background-color: rgba(76, 175, 80, 1);
+        }
+        
+        .cancel-btn {
+            background-color: rgba(244, 67, 54, 0.9);
+            color: white;
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            border-radius: 8px;
+        }
+        
+        .cancel-btn:hover {
+            background-color: rgba(244, 67, 54, 1);
+        }
+        
+        /* Back button */
+        .back-btn {
+            margin-top: 1.5rem;
+            text-align: center;
+        }
+        
+        .back-btn button {
+            background-color: transparent;
+            color: var(--secondary-color);
+            border: 1px solid var(--secondary-color);
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin: 0 auto;
+        }
+        
+        .back-btn button:hover {
+            background-color: rgba(180, 235, 230, 0.1);
+            border-color: var(--teal-light);
+            transform: translateY(-2px);
+        }
+        
+        .copyright {
+            background: rgba(2, 15, 28, 0.8);
+            padding: 20px;
+            text-align: center;
+            font-size: 14px;
+            color: #B4EBE6;
+            margin-top: 2rem;
+            border-top: 1px solid rgba(180, 235, 230, 0.05);
+            backdrop-filter: blur(10px);
+        }
+
+        .copyright a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .copyright a:hover {
+            text-decoration: underline;
+            color: var(--gold-light);
+        }
+        
+        /* Feature icons */
+        .feature-icons {
+            display: flex;
+            justify-content: space-around;
+            margin: 3rem 0 2rem;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .feature-icon {
+            text-align: center;
+            padding: 20px;
+            background-color: rgba(4, 28, 50, 0.8);
+            border-radius: 12px;
+            width: 180px;
+            transition: all 0.35s;
+            border: 1px solid rgba(180, 235, 230, 0.15);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .feature-icon:before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(180, 235, 230, 0.05) 0%, rgba(180, 235, 230, 0) 70%);
+            z-index: 0;
+        }
+        
+        .feature-icon:hover {
+            transform: translateY(-7px);
+            box-shadow: 0 7px 20px rgba(0, 0, 0, 0.3);
+            border-color: var(--secondary-color);
+            background-color: rgba(4, 28, 50, 0.95);
+        }
+        
+        .feature-icon i {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 1;
+            transition: all 0.3s;
+        }
+        
+        .feature-icon:hover i {
+            transform: scale(1.15);
+            color: var(--gold-light);
+        }
+        
+        .feature-icon h3 {
+            margin: 10px 0;
+            color: var(--secondary-color);
+            font-size: 16px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Custom file input styling */
+        input[type="file"] {
+            border: 1px solid rgba(180, 235, 230, 0.3);
+            border-radius: 8px;
+            padding: 10px;
+            background-color: rgba(255, 255, 255, 0.05);
+            width: 100%;
+            color: var(--light-text);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        input[type="file"]:hover {
+            background-color: rgba(255, 255, 255, 0.08);
+            border-color: var(--primary-color);
+        }
+        
+        input[type="file"]::-webkit-file-upload-button {
+            background: var(--secondary-color);
+            border: none;
+            border-radius: 6px;
+            color: var(--dark-bg);
+            padding: 8px 16px;
+            margin-right: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        input[type="file"]::-webkit-file-upload-button:hover {
+            background: var(--teal-light);
+        }
+        
+        /* Progress indicator */
+        .progress-bar {
+            width: 100%;
+            margin: 30px 0;
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+        }
+        
+        .progress-bar:before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            height: 2px;
+            width: 100%;
+            background-color: rgba(180, 235, 230, 0.15);
+            z-index: 1;
+        }
+        
+        .progress-step {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--dark-bg);
+            border: 2px solid var(--secondary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: var(--secondary-color);
+            position: relative;
+            z-index: 2;
+            transition: all 0.4s;
+        }
+        
+        .progress-step.active {
+            background-color: var(--primary-color);
+            color: var(--dark-bg);
+            border-color: var(--primary-color);
+            box-shadow: 0 0 15px rgba(236, 179, 101, 0.5);
+            transform: scale(1.1);
+        }
+        
+        .progress-step i {
+            font-size: 16px;
+        }
+        
+        .progress-label {
+            position: absolute;
+            top: 45px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 13px;
+            color: var(--secondary-color);
+            white-space: nowrap;
+            font-weight: 500;
+            margin-top: 5px;
+        }
+        @keyframes animate {
+    0%{
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+        border-radius: 0;
+    }
+    100%{
+        transform: translateY(-1000px) rotate(720deg);
+        opacity: 0;
+        border-radius: 50%;
+    }
+}
+
+.background {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    margin: 0;
+    padding: 0;
+    background: #041c32;
+    overflow: hidden;
+}
+.background li {
+    position: absolute;
+    display: block;
+    list-style: none;
+    width: 20px;
+    height: 20px;
+    background: rgba(255, 255, 255, 0.2);
+    animation: animate 45s linear infinite;
+}
+
+
+
+
+.background li:nth-child(0) {
+    left: 83%;
+    width: 277px;
+    height: 277px;
+    bottom: -277px;
+    animation-delay: 1s;
+}
+.background li:nth-child(1) {
+    left: 23%;
+    width: 3px;
+    height: 3px;
+    bottom: -3px;
+    animation-delay: 3s;
+}
+.background li:nth-child(2) {
+    left: 1%;
+    width: 228px;
+    height: 228px;
+    bottom: -228px;
+    animation-delay: 8s;
+}
+.background li:nth-child(3) {
+    left: 80%;
+    width: 84px;
+    height: 84px;
+    bottom: -84px;
+    animation-delay: 13s;
+}
+.background li:nth-child(4) {
+    left: 5%;
+    width: 279px;
+    height: 279px;
+    bottom: -279px;
+    animation-delay: 15s;
+}
+.background li:nth-child(5) {
+    left: 36%;
+    width: 143px;
+    height: 143px;
+    bottom: -143px;
+    animation-delay: 23s;
+}
+.background li:nth-child(6) {
+    left: 60%;
+    width: 153px;
+    height: 153px;
+    bottom: -153px;
+    animation-delay: 11s;
+}
+.background li:nth-child(7) {
+    left: 54%;
+    width: 244px;
+    height: 244px;
+    bottom: -244px;
+    animation-delay: 22s;
+}
+.background li:nth-child(8) {
+    left: 20%;
+    width: 278px;
+    height: 278px;
+    bottom: -278px;
+    animation-delay: 24s;
+}
+.background li:nth-child(9) {
+    left: 15%;
+    width: 253px;
+    height: 253px;
+    bottom: -253px;
+    animation-delay: 33s;
+}
+.background li:nth-child(10) {
+    left: 35%;
+    width: 10px;
+    height: 10px;
+    bottom: -10px;
+    animation-delay: 39s;
+}
+.background li:nth-child(11) {
+    left: 30%;
+    width: 144px;
+    height: 144px;
+    bottom: -144px;
+    animation-delay: 6s;
+}
+.background li:nth-child(12) {
+    left: 67%;
+    width: 18px;
+    height: 18px;
+    bottom: -18px;
+    animation-delay: 24s;
+}
+.background li:nth-child(13) {
+    left: 26%;
+    width: 274px;
+    height: 274px;
+    bottom: -274px;
+    animation-delay: 28s;
+}
+.background li:nth-child(14) {
+    left: 16%;
+    width: 86px;
+    height: 86px;
+    bottom: -86px;
+    animation-delay: 28s;
+}
+.background li:nth-child(15) {
+    left: 27%;
+    width: 156px;
+    height: 156px;
+    bottom: -156px;
+    animation-delay: 42s;
+}
+.logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #fff;
+            text-decoration: none;
+        }
+
+.logo span {
+            color: #FFC107;
+}     
+.blurred {
+    backdrop-filter: blur(10px);
+    background-color: #041c32; /* Optional for translucent effect */
+}
+.form-control1::placeholder {
+  color: #fff; /* or any color you want */
+  opacity: 1;
+}
+/* Add this to your CSS file or include it in a <style> tag in your HTML head */
+    .alert {
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.alert-danger {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+}
+
+.alert-success {
+    color: #155724;
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+}
+
+.alert-link {
+    font-weight: bold;
+    color: inherit;
+    text-decoration: underline;
+    display: inline-block;
+    margin-top: 8px;
+    transition: opacity 0.2s;
+}
+
+.alert-link:hover {
+    opacity: 0.8;
+}
+
+.alert i {
+    font-size: 1.2em;
+}
+        
+    </style>
+</head>
+<body>
+    <ul class="background">
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+     </ul>
+    <!-- Header -->
+    <header id="header" class="header">
+        <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
+          <a href="/" class="logo d-flex align-items-center me-auto me-lg-0">
+            <a href="/" class="logo">fix<span>myroad</span>™</a>
+            <span>&nbsp;&nbsp;</span>
+          </a>
+    
+          <nav id="navmenu" class="navmenu">
+            <ul>
+              <li><a href="{{ url_for('home') }}">Home&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
+              <li><a href="{{ url_for('your_complaint_status') }}">My Complaints&nbsp;&nbsp;</a></li>
+              <li><a href="{{ url_for('view_on_map') }}">Map View&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
+              <li><a href="{{ url_for('view_complaints') }}">Community&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
+            </ul>
+            <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+          </nav>
+          
+          <div class="button-group">
+            <a class="btn-getstarted" href="{{ url_for('home') }}">Back</a>
+          </div>
+          <div class="button-group">
+            <a class="btn-getstarted" href="/logout">Logout</a>
+          </div>
+        </div>
+    </header>
+    
+    <!-- Form container -->
+    <div class="container">
+        <h1 class="form-title">File a Pothole Complaint</h1>
+        {% if error %}
+            <div class="alert alert-danger">
+                <i class="bi bi-exclamation-triangle"></i> {{ error }}
+                {% if redirect_to_community %}
+                <br>
+                <a href="{{ url_for('view_complaints') }}" class="alert-link">
+                    <i class="bi bi-arrow-right-circle"></i> View in Community Section
+                </a>
+                {% endif %}
+            </div>
+            {% endif %}
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">
+                        <i class="bi bi-info-circle"></i> {{ message }}
+                    </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+        
+        
+        <form id="reportForm" method="POST" action="/submit_complaint" enctype="multipart/form-data">
+            <!-- Image upload -->
+            <div class="form-group">
+                <label class="form-label"><i class="bi bi-camera"></i> Upload Pothole Image</label>
+                <div class="image-upload">
+                    <div class="image-instructions">
+                        <p><i class="bi bi-check-circle"></i> Distance: Take photo from 2–3 meters away. </p>
+                        <p><i class="bi bi-check-circle"></i> Angle: Use a 30°–45° angle to show depth. </p>
+                        <p><i class="bi bi-check-circle"></i> Clarity: Make sure the image is clear and focused. </p>
+                    </div>
+                    <input type="file" name="image" id="image" class="form-control" accept="image/*" required>
+                    <img id="imagePreview" class="image-preview" alt="Image preview">
+                </div>
+            </div>
+            
+            <!-- Description -->
+            <div class="form-group">
+                <label for="description" class="form-label"><i class="bi bi-chat-square-text"></i> Description</label>
+                <textarea name="description" id="description" class="form-control form-control1" placeholder="Please describe the pothole issue in detail..."></textarea>
+            </div>
+            
+            <!-- Contact Number -->
+            <div class="form-group">
+                <label for="contact" class="form-label"><i class="bi bi-telephone"></i> Contact Number</label>
+                <input type="text" name="contact" id="contact" class="form-control form-control1" placeholder="Enter your contact number" required>
+            </div>
+            
+            <!-- Map location -->
+            <div class="form-group">
+                <label class="form-label"><i class="bi bi-geo-alt"></i> Map Location</label>
+                <div class="location-fields">
+                    <div style="display: flex; gap: 10px; margin-bottom: 10px;">
+                        <input type="text" style="display:none;" name="latitude" id="latitude" class="form-control" placeholder="Latitude" readonly required>
+                        <input type="text" style="display:none;" name="longitude" id="longitude" class="form-control" placeholder="Longitude" readonly required>
+                    </div>
+                </div>
+                <button type="button" id="currentLocationBtn" class="btn btn-current-location">
+                    <i class="bi bi-geo-fill"></i> Get Current Location
+                </button>
+                <div class="map-container" id="map">
+                    <!-- Map will be rendered here -->
+                </div>
+                <div id="locationControls" class="location-controls" style="display: none;">
+                    <button type="button" id="confirmLocationBtn" class="btn confirm-btn">
+                        <i class="bi bi-check-circle"></i> Confirm This Location
+                    </button>
+                    <button type="button" id="cancelLocationBtn" class="btn cancel-btn">
+                        <i class="bi bi-x-circle"></i> Cancel
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Submit button -->
+            <button type="submit" class="btn btn-submit">
+                <i class="bi bi-send"></i> Submit Complaint
+            </button>
+        </form>
+    </div>
+    
+    <div class="copyright">
+        <p>&copy; 2025 fixmyroad™. All Rights Reserved.</p>
+    </div>
+
+    
+    <!-- Add Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script>
+        // Global variables for map and marker
+        let map;
+        let marker;
+        let accuracyCircle;
+        let imageDataUrl = null;
+        let isSelectingLocation = false;
+        let locationConfirmed = false;
+        
+        // Image preview functionality
+        document.getElementById('image').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const preview = document.getElementById('imagePreview');
+                    preview.src = event.target.result;
+                    preview.style.display = 'block';
+                    imageDataUrl = event.target.result;
+                    
+                    // Update marker popup if it exists
+                    if (marker) {
+                        updateMarkerPopup();
+                    }
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+        
+        // Function to update marker popup with image
+        function updateMarkerPopup() {
+            let popupContent = "Complaint Location";
+            if (imageDataUrl) {
+                popupContent += `<br><img src="${imageDataUrl}" alt="Issue" style="width:100px;height:auto;border-radius:8px;margin-top:5px;">`;
+            }
+            if (marker) {
+                marker.bindPopup(popupContent).openPopup();
+            }
+        }
+        
+        // Function to handle location
+        function gotLocation(position) {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+            const accuracy = position.coords.accuracy;
+
+            document.getElementById('latitude').value = latitude.toFixed(6);
+            document.getElementById('longitude').value = longitude.toFixed(6);
+
+            // Define tile layers
+            const streetLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors',
+            });
+
+            const satelliteLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+                attribution: 'Tiles © Esri'
+            });
+
+            // If map doesn't exist, initialize it
+            if (!map) {
+                map = L.map('map', {
+                    center: [latitude, longitude],
+                    zoom: 16,
+                    layers: [streetLayer]
+                });
+
+                const baseMaps = {
+                    "Street View": streetLayer,
+                    "Satellite View": satelliteLayer
+                };
+
+                L.control.layers(baseMaps).addTo(map);
+                L.control.scale().addTo(map);
+            }
+
+            // Remove existing marker and circle if any
+            if (marker) {
+                map.removeLayer(marker);
+            }
+            if (accuracyCircle) {
+                map.removeLayer(accuracyCircle);
+            }
+
+            // Add accuracy circle
+            accuracyCircle = L.circle([latitude, longitude], {
+                color: '#FFB22C',
+                fillColor: '#FFB22C',
+                fillOpacity: 0.15,
+                radius: accuracy
+            }).addTo(map);
+
+            // Create a popup with image if available
+            let popupContent = "Your current location<br>(Click anywhere on map to select different location)";
+            if (imageDataUrl) {
+                popupContent += `<br><img src="${imageDataUrl}" alt="Issue" style="width:100px;height:auto;border-radius:8px;margin-top:5px;">`;
+            }
+
+            // Add marker for current location
+            marker = L.marker([latitude, longitude], {
+                draggable: true
+            }).addTo(map)
+                .bindPopup(popupContent)
+                .openPopup();
+
+            // Center the map
+            map.setView([latitude, longitude], 16);
+            
+            // Enable location selection mode
+            enableLocationSelection();
+            
+            // Update marker position when dragged
+            marker.on('dragend', function(e) {
+                const newPos = marker.getLatLng();
+                document.getElementById('latitude').value = newPos.lat.toFixed(6);
+                document.getElementById('longitude').value = newPos.lng.toFixed(6);
+                if (accuracyCircle) {
+                    map.removeLayer(accuracyCircle);
+                    accuracyCircle = null;
+                }
+            });
+        }
+        
+        // Enable location selection mode
+        function enableLocationSelection() {
+            isSelectingLocation = true;
+            document.getElementById('locationControls').style.display = 'flex';
+            locationConfirmed = false;
+            
+            // Handle map clicks to set location
+            map.on('click', function(e) {
+                if (!isSelectingLocation) return;
+                
+                const clickedLatLng = e.latlng;
+                document.getElementById('latitude').value = clickedLatLng.lat.toFixed(6);
+                document.getElementById('longitude').value = clickedLatLng.lng.toFixed(6);
+                
+                // Move marker to clicked location
+                if (marker) {
+                    marker.setLatLng(clickedLatLng);
+                } else {
+                    marker = L.marker(clickedLatLng, {
+                        draggable: true
+                    }).addTo(map)
+                        .bindPopup("Selected location")
+                        .openPopup();
+                    
+                    // Update marker position when dragged
+                    marker.on('dragend', function(e) {
+                        const newPos = marker.getLatLng();
+                        document.getElementById('latitude').value = newPos.lat.toFixed(6);
+                        document.getElementById('longitude').value = newPos.lng.toFixed(6);
+                    });
+                }
+                
+                // Remove accuracy circle if it exists
+                if (accuracyCircle) {
+                    map.removeLayer(accuracyCircle);
+                    accuracyCircle = null;
+                }
+            });
+        }
+        
+        // Disable location selection mode
+        function disableLocationSelection() {
+            isSelectingLocation = false;
+            document.getElementById('locationControls').style.display = 'none';
+            map.off('click');
+        }
+        
+        // Current location button
+        document.getElementById('currentLocationBtn').addEventListener('click', function() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    gotLocation,
+                    function(error) {
+                        alert('Error getting location: ' + error.message);
+                    },
+                    {
+                        enableHighAccuracy: true,
+                        timeout: 10000,
+                        maximumAge: 0
+                    }
+                );
+            } else {
+                alert('Geolocation is not supported by your browser.');
+            }
+        });
+        
+        // Confirm location button
+        document.getElementById('confirmLocationBtn').addEventListener('click', function() {
+            disableLocationSelection();
+            if (accuracyCircle) {
+                map.removeLayer(accuracyCircle);
+                accuracyCircle = null;
+            }
+            locationConfirmed = true;
+            // alert('Location confirmed!');
+        });
+        
+        // Cancel location button
+        document.getElementById('cancelLocationBtn').addEventListener('click', function() {
+            disableLocationSelection();
+            if (marker) {
+                map.removeLayer(marker);
+                marker = null;
+            }
+            if (accuracyCircle) {
+                map.removeLayer(accuracyCircle);
+                accuracyCircle = null;
+            }
+            document.getElementById('latitude').value = '';
+            document.getElementById('longitude').value = '';
+            locationConfirmed = false;
+        });
+        
+        // Form submission validation
+        document.getElementById('reportForm').addEventListener('submit', function(e) {
+            if (!marker || !locationConfirmed) {
+                e.preventDefault();
+                // alert('Please select and confirm a location on the map first!');
+                return;
+            }
+            
+            const latitude = document.getElementById('latitude').value;
+            const longitude = document.getElementById('longitude').value;
+            
+            if (!latitude || !longitude) {
+                e.preventDefault();
+                // alert('Please select a location on the map!');
+                return;
+            }
+        });
+        
+        // Initialize map with default location
+        window.addEventListener('load', function() {
+            // Default coordinates
+            const defaultLat = 21.1458;  // Using Nagpur as default (as in original code)
+            const defaultLng = 79.0882;
+            
+            // Initialize map with dark theme
+            const streetLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors'
+            });
+            
+            const satelliteLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+                attribution: 'Tiles © Esri'
+            });
+            
+            // Dark theme map (using a dark map style)
+            const darkLayer = L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png', {
+                attribution: '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>'
+            });
+            
+            map = L.map('map', {
+                center: [defaultLat, defaultLng],
+                zoom: 12,
+                layers: [streetLayer] // Start with dark theme
+            });
+            
+            // Add layer control
+            const baseMaps = {
+                "Street View": streetLayer,
+                "Dark View": darkLayer,
+                "Satellite View": satelliteLayer
+            };
+            
+            L.control.layers(baseMaps).addTo(map);
+            L.control.scale().addTo(map);
+        });
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 100) {
+                header.classList.add('blurred');
+            } else {
+                header.classList.remove('blurred');
+            }
+        });
+    </script>
+</body>
+</html>

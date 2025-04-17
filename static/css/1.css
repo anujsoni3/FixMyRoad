@@ -1,0 +1,358 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    perspective: 1000px;
+    overflow-x: hidden; /* Prevent horizontal scrolling */
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+/* Section Styles */
+.section-full {
+    position: relative;
+    overflow: hidden;
+    padding-bottom: 150px; /* Added extra padding to ensure visibility of animations */
+}
+
+.mobile-page-padding {
+    padding: 0 15px;
+}
+
+.p-b50 {
+    padding-bottom: 50px;
+}
+
+.p-t80 {
+    padding-top: 80px;
+}
+
+.p-a30 {
+    padding: 30px;
+}
+
+.p-tb50 {
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
+
+.m-b15 {
+    margin-bottom: 15px;
+}
+
+.m-b25 {
+    margin-bottom: 25px;
+}
+
+.m-b30 {
+    margin-bottom: 30px;
+}
+
+/* Background Styles */
+.bg-dark {
+    background-color: #222;
+    color: #fff;
+}
+
+.bg-gray {
+    background-color: #f5f5f5;
+}
+
+.bg-moving {
+    background-repeat: repeat-x; /* Changed to repeat-x for continuous animation */
+    position: relative;
+    background-size: cover;
+}
+
+/* Text Styles */
+.text-white {
+    color: #fff;
+}
+
+.text-primary {
+    color: #ff5e15;
+}
+
+.text-uppercase {
+    text-transform: uppercase;
+}
+
+.font-weight-300 {
+    font-weight: 300;
+}
+
+/* Service Half Top */
+.Service-half-top {
+    position: relative;
+    z-index: 1;
+    background-position: center;
+    background-size: cover;
+    padding-bottom: 70px;
+}
+
+.section-head {
+    margin-bottom: 30px;
+}
+
+.mt-separator-outer {
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.separator-left {
+    text-align: left;
+}
+
+.mt-separator {
+    display: inline-block;
+    position: relative;
+}
+
+.sep-line-one {
+    position: relative;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+}
+
+.sep-line-one:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 50px;
+    height: 3px;
+    background-color: #ff5e15;
+}
+
+/* Service Items */
+.services-half-bottom {
+    position: relative;
+    z-index: 2;
+    margin-top: -50px;
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: -15px;
+    margin-left: -15px;
+    justify-content: center;
+}
+
+.grams-service {
+    padding: 0 15px;
+    flex: 0 0 20%;
+    max-width: 20%;
+    transition: all 0.3s ease;
+}
+
+.mt-icon-box-wraper {
+    position: relative;
+    transition: all 0.5s ease; /* Slowed down for better visibility */
+    box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    cursor: pointer; /* Added cursor to indicate interactivity */
+    transform: translateY(0); /* Starting position */
+    will-change: transform, box-shadow; /* Optimization for animations */
+}
+
+.relative {
+    position: relative;
+}
+
+.icon-md {
+    text-align: center;
+}
+
+.inline-icon {
+    display: inline-block;
+}
+
+.icon-content h5 {
+    font-size: 16px;
+    line-height: 1.3;
+}
+
+.icon-content p {
+    font-size: 14px;
+    min-height: 60px;
+}
+
+.icon-cell {
+    display: block;
+    text-align: center;
+}
+
+.icon-cell img {
+    max-width: 60px;
+    height: auto;
+    display: inline-block;
+}
+
+/* Improved Animation */
+.scale-in-center {
+    animation: scale-in-center 1s cubic-bezier(0.250, 0.460, 0.450, 0.940) both; /* Extended duration */
+    animation-fill-mode: both; /* Ensures animation stays at the end state */
+}
+
+@keyframes scale-in-center {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* 3D Animation for SERVICES text - ADJUSTED POSITION */
+.hilite-title {
+    position: absolute;
+    bottom: -50px; /* Moved lower as requested */
+    left: 0;
+    right: 0;
+    z-index: 10;
+    perspective: 1000px;
+    height: 140px; /* Set explicit height to contain the text */
+    overflow: visible; /* Allow content to overflow */
+}
+
+.p-l50 {
+    padding-left: 50px;
+}
+
+.text-left {
+    text-align: left;
+}
+
+/* 3D Animation for Services Title */
+.three-d-title {
+    position: relative;
+    font-size: 120px;
+    line-height: 0.8;
+    color: rgba(0,0,0,0.05);
+    font-weight: 900;
+    display: block;
+    transform-style: preserve-3d;
+    animation: float-updown 6s infinite ease-in-out;
+    will-change: transform; /* Optimization for animations */
+}
+
+@keyframes float-updown {
+    0% {
+        transform: translateY(0px) rotateX(0deg);
+    }
+    50% {
+        transform: translateY(-30px) rotateX(5deg); /* Added slight rotation */
+    }
+    100% {
+        transform: translateY(0px) rotateX(0deg);
+    }
+}
+
+/* Create 3D text layer effect */
+.three-d-title:before,
+.three-d-title:after {
+    content: 'SERVICES';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    transform-style: preserve-3d;
+}
+
+.three-d-title:before {
+    transform: translateZ(-10px);
+    color: rgba(0,0,0,0.1);
+}
+
+.three-d-title:after {
+    transform: translateZ(10px);
+    color: rgba(0,0,0,0.2);
+}
+
+/* Service box hover effect - enhanced */
+.mt-icon-box-wraper:hover {
+    transform: translateY(-15px) scale(1.03); /* Slightly larger movement and scale */
+    box-shadow: 0 15px 30px rgba(0,0,0,0.15); /* Stronger shadow */
+}
+
+/* Icon pulse effect on hover */
+.mt-icon-box-wraper:hover .icon-md img {
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Square Shape */
+.square_shape2:after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 50%;
+    height: 0;
+    border-top: 100px solid #f5f5f5;
+    border-right: 100px solid transparent;
+}
+
+/* Responsive */
+@media only screen and (max-width: 1024px) {
+    .grams-service {
+        flex: 0 0 33.33%;
+        max-width: 33.33%;
+    }
+    .three-d-title {
+        font-size: 80px;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .grams-service {
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
+    .three-d-title {
+        font-size: 60px;
+    }
+    .square_shape2:after {
+        display: none;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    .grams-service {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+    .three-d-title {
+        font-size: 40px;
+    }
+    
+    /* Ensure animations are visible on mobile */
+    .section-full {
+        overflow: visible;
+        padding-bottom: 100px;
+    }
+}

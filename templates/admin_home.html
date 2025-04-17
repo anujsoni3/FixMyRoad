@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Pothole Management System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .dashboard-container {
+            padding: 30px;
+        }
+        .stats-card {
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            color: white;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+        .stats-card:hover {
+            transform: translateY(-5px);
+        }
+        .stats-card.users {
+            background: linear-gradient(135deg, #6e8efb, #a777e3);
+        }
+        .stats-card.verified {
+            background: linear-gradient(135deg, #05ac50, #21dd8a);
+        }
+        .stats-card.approved {
+            background: linear-gradient(135deg, #ff9966, #ff5e62);
+        }
+        .stats-card.resolved {
+            background: linear-gradient(135deg, #2193b0, #6dd5ed);
+        }
+        .stats-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        .stats-title {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        .table-container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .table th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+        }
+        .complaints-table {
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+        .complaints-table tbody tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        .complaints-table tbody tr:hover {
+            background-color: #f0f0f0;
+        }
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 5px;
+        }
+        .priority-high {
+            background-color: #dc3545;
+        }
+        .priority-medium {
+            background-color: #fd7e14;
+        }
+        .priority-low {
+            background-color: #28a745;
+        }
+        .image-thumbnail {
+            width: 80px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .image-modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+        .image-modal-content {
+            display: block;
+            margin: 5% auto;
+            max-width: 80%;
+            max-height: 80%;
+        }
+        .image-modal-close {
+            position: absolute;
+            top: 15px;
+            right: 35px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .btn-reject {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+        .btn-reject:hover {
+            background-color: #c82333;
+            color: white;
+        }
+        .status-badge {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .status-unverified {
+            background-color: #f8f9fa;
+            color: #6c757d;
+        }
+        .status-verified {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .status-approved {
+            background-color: #cce5ff;
+            color: #004085;
+        }
+        .status-resolved {
+            background-color: #28a745;
+            color: white;
+        }
+        .nav-item .nav-link.active {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">Pothole Management System - Admin</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{ url_for('admin_dashboard') }}">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('predict_bridge') }}">
+                            <i class="fas fa-bridge"></i> Bridge Analysis
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('admin_resolved') }}">Resolved</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container dashboard-container">
+        <h2 class="mb-4">Dashboard Overview</h2>
+        
+        <div class="row">
+            <!-- Stats Cards -->
+            <div class="col-md-3">
+                <div class="stats-card users">
+                    <i class="fas fa-users fa-2x"></i>
+                    <div class="stats-number">{{ total_users }}</div>
+                    <div class="stats-title">Total Users</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stats-card verified">
+                    <i class="fas fa-check-circle fa-2x"></i>
+                    <div class="stats-number">{{ verified_requests }}</div>
+                    <div class="stats-title">Verified Requests</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stats-card approved">
+                    <i class="fas fa-thumbs-up fa-2x"></i>
+                    <div class="stats-number">{{ approved_requests }}</div>
+                    <div class="stats-title">Approved Requests</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stats-card resolved">
+                    <i class="fas fa-tasks fa-2x"></i>
+                    <div class="stats-number">{{ resolved_requests }}</div>
+                    <div class="stats-title">Resolved Requests</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="table-container">
+                    <h4 class="mb-4">Complaint Management</h4>
+                    <div class="table-responsive">
+                        <table class="table complaints-table">
+                            <thead>
+                                <tr>
+                                    <th>Image</th>
+                                    <th>Email</th>
+                                    <th>Description</th>
+                                    <th>Status</th>
+                                    <th>Location</th>
+                                    <th>Priority</th>
+                                    <th>Votes</th>
+                                    <th>Contact</th>
+                                    <th>Potholes</th>
+                                    <th>Admin Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for complaint in complaints %}
+                                <tr id="row-{{ complaint._id }}">
+                                    <td>
+                                        <img src="{{ url_for('static', filename=complaint.image) }}" alt="Pothole Image" class="image-thumbnail" onclick="openImageModal('{{ url_for('static', filename=complaint.image) }}')">
+                                    </td>
+                                    <td>{{ complaint.user_email }}</td>
+                                    <td>{{ complaint.description|truncate(50) }}</td>
+                                    <td>
+                                        {% if complaint.status == "Complaint Registered (Unverified)" %}
+                                            <span class="status-badge status-unverified">Unverified</span>
+                                        {% elif complaint.status == "Complaint Registered (Verified)" %}
+                                            <span class="status-badge status-verified">Verified</span>
+                                        {% elif complaint.status == "Approved by Admin" %}
+                                            <span class="status-badge status-approved">Approved</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <small>Lat: {{ complaint.latitude }}<br>
+                                        Lng: {{ complaint.longitude }}</small>
+                                    </td>
+                                    <td>
+                                        {% if complaint.priority > 20 %}
+                                            <span class="status-indicator priority-high"></span>
+                                            <strong>{{ complaint.priority|round(1) }}</strong>
+                                        {% elif complaint.priority > 10 %}
+                                            <span class="status-indicator priority-medium"></span>
+                                            {{ complaint.priority|round(1) }}
+                                        {% else %}
+                                            <span class="status-indicator priority-low"></span>
+                                            {{ complaint.priority|round(1) }}
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <span class="text-success">+{{ complaint.upvotes }}</span> / 
+                                        <span class="text-danger">-{{ complaint.downvotes }}</span>
+                                    </td>
+                                    <td>{{ complaint.contact }}</td>
+                                    <td>{{ complaint.pothole_count }}</td>
+                                    <td>
+                                        <div class="d-flex flex-column">
+                                            {% if not complaint.complaint_approved_by_admin %}
+                                                <div class="mb-2">
+                                                    <button class="btn btn-sm btn-primary admin-action-btn" 
+                                                        data-complaint-id="{{ complaint._id }}"
+                                                        data-action="approve"
+                                                        {% if not complaint.validated_by_model %}disabled{% endif %}>
+                                                        <i class="fas fa-check"></i> Approve
+                                                    </button>
+                                                </div>
+                                                <div>
+                                                    <button class="btn btn-sm btn-reject admin-action-btn" 
+                                                        data-complaint-id="{{ complaint._id }}"
+                                                        data-action="reject">
+                                                        <i class="fas fa-times"></i> Reject
+                                                    </button>
+                                                </div>
+                                            {% elif not complaint.complaint_resolved %}
+                                                <button class="btn btn-sm btn-success admin-action-btn" 
+                                                    data-complaint-id="{{ complaint._id }}"
+                                                    data-action="resolve">
+                                                    <i class="fas fa-check-double"></i> Mark Resolved
+                                                </button>
+                                            {% endif %}
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Image Modal -->
+    <div id="imageModal" class="image-modal">
+        <span class="image-modal-close" onclick="closeImageModal()">&times;</span>
+        <img class="image-modal-content" id="modalImage">
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div class="modal fade" id="confirmationModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmationModalTitle">Confirm Action</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="confirmationModalBody">
+                    Are you sure you want to perform this action?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="confirmActionBtn">Confirm</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        function openImageModal(imageSrc) {
+            document.getElementById('imageModal').style.display = "block";
+            document.getElementById('modalImage').src = imageSrc;
+        }
+
+        function closeImageModal() {
+            document.getElementById('imageModal').style.display = "none";
+        }
+
+        $(document).ready(function() {
+            let actionData = {};
+            const confirmationModal = new bootstrap.Modal(document.getElementById('confirmationModal'));
+            
+            // Handle button clicks
+            $('.admin-action-btn').click(function() {
+                const complaintId = $(this).data('complaint-id');
+                const actionType = $(this).data('action');
+                
+                // Set action data to use in confirmation
+                actionData = {
+                    complaintId: complaintId,
+                    actionType: actionType
+                };
+                
+                // Set appropriate confirmation message
+                let confirmMessage = '';
+                if (actionType === 'approve') {
+                    confirmMessage = 'Are you sure you want to approve this complaint?';
+                    $('#confirmActionBtn').removeClass('btn-danger').addClass('btn-primary');
+                } else if (actionType === 'reject') {
+                    confirmMessage = 'Are you sure you want to reject and delete this complaint? This action cannot be undone.';
+                    $('#confirmActionBtn').removeClass('btn-primary').addClass('btn-danger');
+                } else if (actionType === 'resolve') {
+                    confirmMessage = 'Are you sure this complaint has been resolved? It will be moved to the resolved complaints archive.';
+                    $('#confirmActionBtn').removeClass('btn-danger').addClass('btn-success');
+                }
+                
+                $('#confirmationModalBody').text(confirmMessage);
+                confirmationModal.show();
+            });
+            
+            // Handle confirmation button click
+            $('#confirmActionBtn').click(function() {
+                // Send AJAX request to update complaint
+                $.ajax({
+                    url: '{{ url_for("update_complaint") }}',
+                    type: 'POST',
+                    data: {
+                        complaint_id: actionData.complaintId,
+                        action_type: actionData.actionType
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            confirmationModal.hide();
+                            
+                            if (actionData.actionType === 'reject' || actionData.actionType === 'resolve') {
+                                $(`#row-${actionData.complaintId}`).fadeOut(500, function() {
+                                    $(this).remove();
+                                });
+                            } else if (actionData.actionType === 'approve') {
+                                $(`#row-${actionData.complaintId} td:nth-child(4)`).html(
+                                    '<span class="status-badge status-approved">Approved</span>'
+                                );
+                                
+                                const actionCell = $(`#row-${actionData.complaintId} td:last-child div`);
+                                actionCell.html(`
+                                    <button class="btn btn-sm btn-success admin-action-btn" 
+                                        data-complaint-id="${actionData.complaintId}"
+                                        data-action="resolve">
+                                        <i class="fas fa-check-double"></i> Mark Resolved
+                                    </button>
+                                `);
+                                
+                                actionCell.find('.admin-action-btn').click(function() {
+                                    const complaintId = $(this).data('complaint-id');
+                                    const actionType = $(this).data('action');
+                                    
+                                    actionData = {
+                                        complaintId: complaintId,
+                                        actionType: actionType
+                                    };
+                                    
+                                    $('#confirmationModalBody').text('Are you sure this complaint has been resolved? It will be moved to the resolved complaints archive.');
+                                    $('#confirmActionBtn').removeClass('btn-danger').addClass('btn-success');
+                                    confirmationModal.show();
+                                });
+                            }
+                            
+                            setTimeout(function() {
+                                location.reload();
+                            }, 800);
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
